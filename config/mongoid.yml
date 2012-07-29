@@ -9,7 +9,7 @@ test:
 
 # set these environment variables on your prod server
 production:
-  host: <%= ENV['MONGOLAB_URI'] %>
+  uri: <%= ENV['MONGOLAB_URI'] %>
   database: blog_prod
   # slaves: khghjghj
   #   - host: slave1.local
