@@ -1,0 +1,12 @@
+<p>
+  <b>Commenter:</b>
+  <%= comment.name %>
+</p>
+ 
+<p>
+  <b>Comment:</b>
+  <%= comment.body %>
+</p>
+<p>
+  <%= link_to "Destroy", [comment.post, comment], :method => :delete %>
+</p>

@@ -1,0 +1,10 @@
+<p><%= link_to "Add a new post, I dare you.", new_post_path %></p>
+<% @posts.each do |post| %>
+	<hr/>
+	<h2><%= link_to post.title, post %></h2>
+	<p><%= post.content %></p>
+	<p>
+		<small><%= link_to "Edit", edit_post_path(post) %></small> |
+		<small><%= link_to "Destroy", post, :confirm => "You best be sure...", :method => :delete %></small>
+	</p>
+<% end %>
