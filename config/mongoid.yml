@@ -11,7 +11,7 @@ test:
 production:
   host: <%= ENV['MONGOLAB_URI'] %>
   database: blog_prod
-  # slaves:
+  # slaves: khghjghj
   #   - host: slave1.local
   #     port: 27018
   #   - host: slave2.local
