@@ -3,7 +3,7 @@ class Listing
   include Mongoid::Timestamps
 
   belongs_to :post
-  has_many :images
+#  has_many :images
 
   field :title, :type => String
   #field :price, :type => String
