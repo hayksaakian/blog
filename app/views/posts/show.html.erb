@@ -1,6 +1,14 @@
 <h1><%= @post.title %></h1>
 <p><%= @post.content %></p>
-<small><%= @post.id%></small>
+<p><%= @post.json_data.to_s.length %></p>
+
+<p>
+	<%= render @post.listings %>
+</p>
+
+<small><%= root_url + @post.raw_text.to_s %></small>
+<small><%= @post.id %></small>
+<br>
 <h2>Comments</h2>
 <%= render @post.comments %>
 <h2>Add a comment:</h2>

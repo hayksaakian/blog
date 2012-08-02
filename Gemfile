@@ -6,6 +6,12 @@ gem "mongoid", "~> 2.4.0"
 gem "bson_ext", "1.6.2"
 gem "mongo"
 
+gem "carrierwave"
+gem "carrierwave-mongoid"
+#gem "fastercsv"
+#gem "csv2json"
+gem 'csv-to-json', :git => 'git://github.com/maerzbow/csv-to-json.git'
+
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
