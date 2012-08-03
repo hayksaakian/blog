@@ -14,6 +14,8 @@ gem 'imgkit'
 gem 'websnap'
 gem 'echoe', '4.5.5'
 gem 'rspec'
+gem 's3'
+gem 'fog'
 
 gem 'csv-to-json', :git => 'git://github.com/maerzbow/csv-to-json.git'
 
