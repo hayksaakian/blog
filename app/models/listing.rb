@@ -68,9 +68,9 @@ class Listing
       snap.to_file(file.path)
       self.snapshot = file
       file.unlink
+      self.save      
       self.test_location = self.snapshot.path.to_s
       self.save
-
       # snap = WebSnap::Snapper.new('http://google.com', :format => 'png')
       # file = snap.to_file('websnap_template_#{self.id.to_s}')
 

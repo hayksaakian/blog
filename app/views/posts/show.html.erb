@@ -3,7 +3,7 @@
 <small><%= @post.id %></small>
 <hr>
 <% @post.listings.each do |l| %>
-  	<%= l.test_location.to_s %>
+  	<%= link_to l.test_location.to_s, l.test_location.to_s %>
   <% end %>
 <hr>
 <br>
