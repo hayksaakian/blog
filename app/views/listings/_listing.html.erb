@@ -1,9 +1,19 @@
 <p>
+<%= listing.test_location %>
+
+<!-- 
   <b>Images:</b>
   <%= listing.image_locations %><br/>
   <% listing.pictures.each do |p| %>
-  	<%= image_tag(p.picture_url.to_s) %>
+  	<%= image_tag(picture_url.to_s) %>
   <% end %>
+<p><%= @post.json_data.to_s.length %></p>
 
+<p>
+	<%= render @post.listings %>
+</p>
+
+<small><%= root_url + @post.raw_text.to_s %></small>
+ -->
   <hr>
 </p>

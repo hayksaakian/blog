@@ -31,6 +31,9 @@ class Listing
   field :images, :type => String
 
   field :image_locations, :type => Array, :default => []
+
+  field :test_location, :type => String
+
   after_save :get_images
   # set_callback(:update, :after) do |document|
   #   document.get_images(document)
@@ -65,6 +68,7 @@ class Listing
       snap.to_file(file.path)
       self.snapshot = file
       file.unlink
+      self.test_location = self.snapshot.path.to_s
       self.save
 
       # snap = WebSnap::Snapper.new('http://google.com', :format => 'png')
