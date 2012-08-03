@@ -12,7 +12,7 @@ gem "carrierwave-mongoid"
 gem 'imgkit'
 
 gem 'websnap'
-gem 'echoe'
+gem 'echoe', '4.6.0'
 gem 'rspec'
 
 gem 'csv-to-json', :git => 'git://github.com/maerzbow/csv-to-json.git'
