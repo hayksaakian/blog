@@ -16,30 +16,25 @@ class Post
 
   def convert
     if(self.json_data.nil?)
-      # logger.info("the url: "+self.raw_text.path)
-      # pth = self.raw_text.path
-      # csv_table = CSV.table(pth)
-      # list = []
-      # csv_table.each do |row|
-      #   entry = {}
-      #   csv_table.headers.each do |header|
-      #     entry[header] = row[header]
-      #   end
-      #   list << entry
-      # end
-      # self.json_data = JSON.pretty_generate(list)
-      # self.save
-
-      #  list.each do |l|
-      #   s = l.as_json
-      #   ls = self.listings.new
-      #   ls.update_attributes(s)
-      #  end
-      ls = self.listings.new
-      ls.save
-      self.json_data = {:test => 'test'}
+      logger.info("the url: "+self.raw_text.path)
+      pth = self.raw_text.path
+      csv_table = CSV.table(pth)
+      list = []
+      csv_table.each do |row|
+        entry = {}
+        csv_table.headers.each do |header|
+          entry[header] = row[header]
+        end
+        list << entry
+      end
+      self.json_data = JSON.pretty_generate(list)
       self.save
-      
+
+      list.each do |l|
+        s = l.as_json
+        ls = self.listings.new
+        ls.update_attributes(s)
+      end      
     end
   end
 

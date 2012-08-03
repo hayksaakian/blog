@@ -53,27 +53,24 @@ class Listing
   protected
   def get_images
     if self.image_locations.empty?
-      # self.image_locations = self.images.split(',')
-      # self.save
-      # self.image_locations.each do |location|
-      #   i = self.pictures.new
-      #   i.get_image(location)
-      #   i.save
-      # end
-
       self.image_locations = ['derp']
-
-      file = Tempfile.new(["websnap_template", 'png'], 'tmp', :encoding => 'ascii-8bit')
+      self.image_locations = self.images.split(',')
+      self.save
+      self.image_locations.each do |location|
+        i = self.pictures.new
+        i.get_image(location)
+        i.save
+      end
+     
+      file = File.new("#{Rails.root}/tmp/websnap_#{self.id}",'w')
       snap = WebSnap::Snapper.new('http://images.google.com', :format => 'png')
       snap.to_file(file.path)
-      self.snapshot = file
-      file.unlink
-      self.save      
-      self.test_location = self.snapshot.path.to_s
-      self.save
+      self.snapshot = File.open(file.path)
+      #file.unlink
+      #file.flush
+      self.save!
       # snap = WebSnap::Snapper.new('http://google.com', :format => 'png')
       # file = snap.to_file('websnap_template_#{self.id.to_s}')
-
     end
   end
 end
