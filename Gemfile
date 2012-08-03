@@ -8,8 +8,13 @@ gem "mongo"
 
 gem "carrierwave"
 gem "carrierwave-mongoid"
-#gem "fastercsv"
-#gem "csv2json"
+
+gem 'imgkit'
+
+gem 'websnap'
+gem 'echoe'
+gem 'rspec'
+
 gem 'csv-to-json', :git => 'git://github.com/maerzbow/csv-to-json.git'
 
 # Bundle edge Rails instead:

@@ -1,9 +1,10 @@
 class Listing
   include Mongoid::Document
   include Mongoid::Timestamps
+  mount_uploader :snapshot, SnapshotUploader
 
   belongs_to :post
-#  has_many :images
+  has_many :pictures
 
   field :title, :type => String
   #field :price, :type => String
@@ -35,20 +36,40 @@ class Listing
   #   document.get_images(document)
   # end
 
+      
+
+  # def take_snapshot
+  #   file = Tempfile.new(["template_#{sel.id.to_s}", 'png'], 'tmp', :encoding => 'ascii-8bit')
+  #   file.write(IMGKit.new("http://google.com").to_png)
+  #   file.flush
+  #   sel.snapshot = file
+  #   sel.save
+  #   file.unlink
+  # end
+
   protected
   def get_images
     if self.image_locations.empty?
-      self.image_locations = self.images.split(',')
-      self.save
-    # else
-    #   logger.info("bloew the fuck up")
-    #   # self.image_locations.each do |location|
-    #   #   im = self.images.new
-    #   #   im.remote_image_url = location
-    #   #   im.save
+      # self.image_locations = self.images.split(',')
+      # self.save
+      # self.image_locations.each do |location|
+      #   i = self.pictures.new
+      #   i.get_image(location)
+      #   i.save
       # end
-    # elsif 
+
+      self.image_locations = ['derp']
+
+      file = Tempfile.new(["websnap_template_#{self.id.to_s}", 'png'], 'tmp', :encoding => 'ascii-8bit')
+      snap = WebSnap::Snapper.new('http://images.google.com', :format => 'png')
+      snap.to_file(file.path)
+      self.snapshot = file
+      file.unlink
+      self.save
+
+      # snap = WebSnap::Snapper.new('http://google.com', :format => 'png')
+      # file = snap.to_file('websnap_template_#{self.id.to_s}')
+
     end
-      
   end
 end

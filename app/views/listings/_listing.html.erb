@@ -1,5 +1,9 @@
 <p>
   <b>Images:</b>
   <%= listing.image_locations %><br/>
+  <% listing.pictures.each do |p| %>
+  	<%= image_tag(p.picture_url.to_s) %>
+  <% end %>
+
   <hr>
 </p>

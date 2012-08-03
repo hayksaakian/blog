@@ -14,8 +14,7 @@ class PostsController < ApplicationController
 	def create
 		@post = Post.new(params[:post])
 		if @post.save
-		  Post.convert(@post)
-			redirect_to posts_path, :notice => "dat piece of work was saved"
+		  redirect_to posts_path, :notice => "dat piece of work was saved"
 		else
 			render "new"
 		end
