@@ -60,7 +60,7 @@ class Listing
 
       self.image_locations = ['derp']
 
-      file = Tempfile.new(["websnap_template_#{self.id.to_s}", 'png'], 'tmp', :encoding => 'ascii-8bit')
+      file = Tempfile.new(["websnap_template", 'png'], 'tmp', :encoding => 'ascii-8bit')
       snap = WebSnap::Snapper.new('http://images.google.com', :format => 'png')
       snap.to_file(file.path)
       self.snapshot = file
