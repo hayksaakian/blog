@@ -15,8 +15,8 @@ CarrierWave.configure do |config|
  end
 end
 
-require File.join(Rails.root, "lib", "delayed_image_processing")
-Mongoid::Document::ClassMethods.send(:include, DelayedImageProcessing)
+#require File.join(Rails.root, "lib", "delayed_image_processing")
+#Mongoid::Document::ClassMethods.send(:include, DelayedImageProcessing)
 
 module CarrierWave
 
