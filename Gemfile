@@ -17,7 +17,7 @@ gem 'rspec'
 gem 's3'
 gem 'fog'
 
-gem 'csv-to-json', :git => 'git://github.com/maerzbow/csv-to-json.git'
+#gem 'csv-to-json', :git => 'git://github.com/maerzbow/csv-to-json.git'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'

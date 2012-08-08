@@ -3,7 +3,7 @@ require 'json'
 
 class Post
   include Mongoid::Document
-  require "csv-to-json/version"
+#  require "csv-to-json/version"
   attr_accessible :title, :content, :raw_text
   field :title, :type => String
   field :content, :type => String
