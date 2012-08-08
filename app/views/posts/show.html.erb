@@ -3,9 +3,11 @@
 <small><%= @post.id %></small>
 <hr>
 <% @post.listings.each do |l| %>
-  	<%= l.snapshot.current_path %>
-  	<%= l.snapshot.path %>
-  	<%= l.snapshot.url %>
+	<%= image_tag(l.snapshot.to_s, :alt => "DA PIKCHA") %>
+  	<%= 'current_path: '+l.snapshot.current_path.to_s %>
+  	<%= 'path: '+l.snapshot.path.to_s %>
+  	<%= 'url: '+l.snapshot.url.to_s %>
+  	<%= Rails.root.to_s %>
   <% end %>
 <hr>
 <br>
