@@ -73,7 +73,7 @@ class Listing
       # # file = snap.to_file('websnap_template_#{self.id.to_s}')
       #
 
-      file = File.new("#{Rails.root}/tmp/snapshot_#{self.id}",'wb')
+      file = File.new("#{Rails.root}/tmp/#{Process.pid}_snapshot_#{self.id}",'wb')
       #file = Tempfile.new(["#{Rails.root}/tmp/#{Process.pid}_files/", 'png'], 'tmp', :encoding => 'ascii-8bit')
       file.write(IMGKit.new('http://www.google.com/#{Process.pid}').to_png)
       file.flush
