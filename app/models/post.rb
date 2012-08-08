@@ -12,12 +12,14 @@ class Post
   mount_uploader :raw_text, RawTextUploader
 
   field :json_data, :type => Hash
-  after_save :convert
+  before_save :convert
+  after_save :make_listings
 
   def convert
     if(self.json_data.nil?)
-      logger.info("the url: "+self.raw_text.url)
-      csv_table = CSV.table(self.raw_text.url)
+      logger.info("the url: "+self.raw_text.path)
+
+      csv_table = CSV.table(self.raw_text.path)
       list = []
       csv_table.each do |row|
         entry = {}
@@ -26,14 +28,14 @@ class Post
         end
         list << entry
       end
-      self.json_data = JSON.pretty_generate(list)
+      self.json_data = list.as_json
+    end
+  end
 
-      list.each do |l|
-        s = l.as_json
-        ls = self.listings.new
-        ls.update_attributes(s)
-      end 
-      self.save
+  def make_listings
+    self.json_data.each do |j|
+      ls = self.listings.new
+      ls.update_attributes(j)
     end
   end
 
