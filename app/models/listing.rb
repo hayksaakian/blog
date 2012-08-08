@@ -62,15 +62,24 @@ class Listing
         i.save
       end
      
-      file = File.new("#{Rails.root}/tmp/websnap_#{self.id}",'w')
-      snap = WebSnap::Snapper.new('http://images.google.com', :format => 'png')
-      snap.to_file(file.path)
-      self.snapshot = File.open(file.path)
-      #file.unlink
-      #file.flush
-      self.save!
-      # snap = WebSnap::Snapper.new('http://google.com', :format => 'png')
-      # file = snap.to_file('websnap_template_#{self.id.to_s}')
+      # file = File.new("#{Rails.root}/tmp/websnap_#{self.id}",'w')
+      # snap = WebSnap::Snapper.new('http://images.google.com', :format => 'png')
+      # snap.to_file(file.path)
+      # #file.flush
+      # self.snapshot = file
+      # #file.unlink
+      # self.save!
+      # # snap = WebSnap::Snapper.new('http://google.com', :format => 'png')
+      # # file = snap.to_file('websnap_template_#{self.id.to_s}')
+      #
+
+      file = Tempfile.new(["template_#{self.id.to_s}", 'png'], 'tmp', :encoding => 'ascii-8bit')
+      file.write(IMGKit.new('http://www.google.com').to_png)
+      file.flush
+      self.snapshot = file
+      self.save
+      file.unlink
+
     end
   end
 end
