@@ -3,6 +3,9 @@ class Listing
   include Mongoid::Timestamps
   mount_uploader :snapshot, SnapshotUploader
 
+  #require File.join(Rails.root, "lib", "screencap_job")
+  #Mongoid::Document::ClassMethods.send(:include, ScreencapJob)
+
   belongs_to :post
   has_many :pictures
 
@@ -35,52 +38,34 @@ class Listing
   field :test_location, :type => String
 
   after_save :get_images
-  # set_callback(:update, :after) do |document|
-  #   document.get_images(document)
-  # end
 
-      
+  field :urltoget, :type => String, :default => "http://localhost:3000/template_backup.html"
 
-  # def take_snapshot
-  #   file = Tempfile.new(["template_#{sel.id.to_s}", 'png'], 'tmp', :encoding => 'ascii-8bit')
-  #   file.write(IMGKit.new("http://google.com").to_png)
-  #   file.flush
-  #   sel.snapshot = file
-  #   sel.save
-  #   file.unlink
-  # end
+  def dothings(id)
+    listing = Listing.find(id)
+    file = File.new("#{Rails.root}/tmp/#{Process.pid}_snapshot_#{self.id}",'wb')
+    #s = root_url+'404'
+    s = listing.urltoget
+    #s = "/"
+    file.write(IMGKit.new(s).to_png)
+    file.flush
+    listing.snapshot = file
+    listing.save
+  end
 
   protected
   def get_images
     if self.image_locations.empty?
-      self.image_locations = ['derp']
+      self.image_locations = ['YOU FUCKED UP, BRO.']
       self.image_locations = self.images.split(',')
-      self.save
       self.image_locations.each do |location|
         i = self.pictures.new
         i.get_image(location)
         i.save
       end
-     
-      # file = File.new("#{Rails.root}/tmp/websnap_#{self.id}",'w')
-      # snap = WebSnap::Snapper.new('http://images.google.com', :format => 'png')
-      # snap.to_file(file.path)
-      # #file.flush
-      # self.snapshot = file
-      # #file.unlink
-      # self.save!
-      # # snap = WebSnap::Snapper.new('http://google.com', :format => 'png')
-      # # file = snap.to_file('websnap_template_#{self.id.to_s}')
-      #
-
-      file = File.new("#{Rails.root}/tmp/#{Process.pid}_snapshot_#{self.id}",'wb')
-      #file = Tempfile.new(["#{Rails.root}/tmp/#{Process.pid}_files/", 'png'], 'tmp', :encoding => 'ascii-8bit')
-      file.write(IMGKit.new('http://www.google.com/#{Process.pid}').to_png)
-      file.flush
-      self.snapshot = file
       self.save
-      #file.unlink
-
+      #self.delay.process(self.id)
+      self.delay.dothings(self.id)
     end
   end
 end

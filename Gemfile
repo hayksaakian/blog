@@ -11,9 +11,9 @@ gem "carrierwave-mongoid"
 
 gem 'imgkit'
 
-gem 'websnap'
-gem 'echoe', '4.5.5'
-gem 'rspec'
+gem "delayed_job", "~> 3.0.2"
+gem "delayed_job_mongoid", "~> 1.0.8"
+
 gem 's3'
 gem 'fog'
 
