@@ -16,8 +16,8 @@ class Post
 
   def convert
     if(self.json_data.nil?)
-      logger.info("the url: "+self.raw_text.current_path)
-      csv_table = CSV.table(self.raw_text.current_path)
+      logger.info("the url: "+self.raw_text.url)
+      csv_table = CSV.table(self.raw_text.url)
       list = []
       csv_table.each do |row|
         entry = {}
