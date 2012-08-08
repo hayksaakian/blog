@@ -16,9 +16,8 @@ class Post
 
   def convert
     if(self.json_data.nil?)
-      logger.info("the url: "+self.raw_text.path)
-      pth = self.raw_text.path
-      csv_table = CSV.table(pth)
+      logger.info("the url: "+self.raw_text.current_path)
+      csv_table = CSV.table(self.raw_text.current_path)
       list = []
       csv_table.each do |row|
         entry = {}
@@ -28,13 +27,13 @@ class Post
         list << entry
       end
       self.json_data = JSON.pretty_generate(list)
-      self.save
 
       list.each do |l|
         s = l.as_json
         ls = self.listings.new
         ls.update_attributes(s)
-      end      
+      end 
+      self.save
     end
   end
 
