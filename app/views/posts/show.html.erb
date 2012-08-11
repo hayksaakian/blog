@@ -2,13 +2,10 @@
 <p><%= @post.content %></p>
 <small><%= @post.id %></small>
 <hr>
+<h2>Comments</h2>
 <% @post.listings.each do |l| %>
-	<%= image_tag(l.snapshot.to_s, :alt => "DA PIKCHA") %>
-  	<%= 'current_path: '+l.snapshot.current_path.to_s %>
-  	<%= 'path: '+l.snapshot.path.to_s %>
-  	<%= 'url: '+l.snapshot.url.to_s %>
-  	<%= Rails.root.to_s %>
-  <% end %>
+<%= link_to(l.vin, l) %>
+<% end %>
 <hr>
 <br>
 <h2>Comments</h2>

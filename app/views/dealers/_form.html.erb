@@ -1,0 +1,32 @@
+<%= form_for(@dealer) do |f| %>
+  <% if @dealer.errors.any? %>
+    <h3>Errors:</h3>
+    <ul>
+      <% @dealer.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  <% end %>
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :location %><br />
+    <%= f.text_field :location %>
+  </div>
+  <div class="field">
+    <%= f.label :contact_url %><br />
+    <%= f.text_field :contact_url %>
+  </div>
+  <div class="field">
+    <%= f.label :banner_url %><br />
+    <%= f.text_field :banner_url %>
+  </div>
+  <div class="field">
+    <%= f.file_field :raw_text %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

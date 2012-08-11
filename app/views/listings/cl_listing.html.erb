@@ -1,0 +1,53 @@
+<center>!rotate{*Come check out amazing deals and save!*|*We have a wide selection of amazing pre-owned vehicles - come and check us out* | *Excellent condition vehicles - come stop by today and see our variety of vehicles* | *Mention 'Craigslist' to get our internet price!* | *Amazing great selection of pre-owned vehicles come stop by today!* | *Shopping for a vehicle? Come and see the great selection of preowned vehicles we have in store for you*} 
+<%= @listing.make %> <%= @listing.model %> <%= @listing.modelyear %> <%= @listing.trim %></center>
+<div align="center">
+
+<table width="100%">
+<tbody>
+<tr><td><div align="center">
+<br>
+<br>
+<table bgcolor="#FFFFFF" width="910px"><tbody><tr>
+<td bgcolor="#FFFFFF">
+<table width="900px"><tbody><tr><td>
+<div align="center">
+<%= link_to(image_tag(@listing.dealer_banner_url), @listing.dealer_contact_url) %>
+</div></td></tr></tbody></table>
+<table width="900px">
+<tbody>
+<tr>
+<td>
+<div align="center">
+<br><%= link_to(image_tag(@listing.snapshot), @listing.dealer_contact_url) %><br>
+
+<table width="1000px">
+	<tbody>
+	<tr>
+<td align="left" width="30%">
+<%= link_to(image_tag(@listing.main_credit_template_img_src), @listing.dealer_contact_url) %></td>
+<td align="right" width="70%">
+<%= link_to(image_tag(@listing.main_contact_template_img_src), @listing.dealer_contact_url) %></td>
+	</td></tr>
+	</tbody>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+</td>
+</tr>
+</tbody>
+
+</table>
+
+</div>
+<br>
+<center>
+<%= link_to(image_tag(@listing.main_footer_img_src), @listing.main_landing_url) %></center>
+<%= @listing.footer_text %><br /> <%= @listing.dealer_name %> <%= @listing.rand_hexes %>

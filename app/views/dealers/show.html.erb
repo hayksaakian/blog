@@ -1,0 +1,40 @@
+<h1><%= @dealer.name %></h1>
+	<small><%= @dealer.id %></small>
+	<p><%= @dealer.location %></p>
+
+	<p>
+		Banner Image:
+		<br>
+		<%= image_tag(@dealer.banner_url) %>
+	</p>
+<hr>
+	<h3><%= link_to 'Update Listings from CSV File:', edit_dealer_path(@dealer) %></h3>
+	<small><%= "Last Updated At: " %></small>
+<hr>
+<h2>Listings</h2>
+<% if(@dealer.listings.count > 0) %>
+<table border="1">
+  <tr>
+    <th></th>
+		<% @dealer.listings.first.footer_text_hash.keys.each do |key| %>
+    <th><%= key %></th>
+    <% end %>
+    <th></th>
+  </tr>
+ 
+	<% @dealer.listings.each do |l| %>
+	  <tr>
+	    <td><%= link_to 'Show', cl_listing_path(l) %></td>
+	  	<% l.footer_text_hash.values.each do |val| %>
+	    <td><%= val %></td>
+	    <% end %>
+	    <td><%= link_to 'Destroy', [l.dealer, l], :confirm => 'Are you sure?', :method => :delete %></td>
+	  </tr>
+	<% end %>
+</table>
+<% end %>
+<hr>
+<br>
+
+|- <%= link_to 'Edit', edit_dealer_path(@dealer) %> -|-
+<%= link_to 'Back to Dealers', dealers_path %> -|

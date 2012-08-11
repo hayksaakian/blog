@@ -1,0 +1,11 @@
+<p><%= link_to "Add a new Dealer.", new_dealer_path %></p>
+<% @dealers.each do |dealer| %>
+	<hr/>
+	<h2><%= link_to dealer.name, dealer %></h2>
+	<small><%= "has " + dealer.listings.count.to_s + " listing(s)" %></small> |
+	<small><%= dealer.location %></small>
+	<p>
+		<small><%= link_to "Update Info", edit_dealer_path(dealer) %></small> |
+		<small><%= link_to "Destroy", dealer, :confirm => "Are you REALLY sure?", :method => :delete %></small>
+	</p>
+<% end %>
