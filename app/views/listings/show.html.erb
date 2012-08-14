@@ -49,7 +49,13 @@ h2 {
 	<tr>
 		<td colspan="2">
 		<p align="center"><font size="4" id="cartitle"><%= @listing.modelyear %> <%= @listing.make %> <%= @listing.model %> <%= @listing.enginedescription %> <%= @listing.transmission %></font><br />
-				    </font><font size="6"><b>Price: $<%= @listing.price %>   </b></font>
+				    </font><font size="6"><b><%= 
+				    if @listing.price != 0.to_s
+				    	"Price: $"+@listing.price
+				    else
+				    	"Call for Price: "+number_to_phone(@listing.contact_number)
+				    end
+				    %>   </b></font>
 		<p align="center">
 		<font size="4"><br>
 									</font>
@@ -65,7 +71,13 @@ h2 {
 							Mileage: </td>
 							<td style="border:2px solid #C0C0C0; text-align: left" bgcolor="#FFFFFF">
                     <b>
-							<%= @listing.mileage %> miles</td>
+							<%= 
+							if @listing.mileage != 0.to_s
+								@listing.mileage + " miles"
+							else
+								"Call for Miles: "+number_to_phone(@listing.contact_number)
+							end
+							%></td>
 						</tr>
 						<tr>
 							<td style="border:2px solid #C0C0C0; " bgcolor="#FFFFFF" align="left">
@@ -122,7 +134,7 @@ h2 {
 								<tr>
 								<td><img src="http://img-ipad.lisisoft.com/imgmic/1/3/1351-1-rotes-telefon.jpg" width="50px"/></td>
 								<td><font size="4"><b>Call Today & Ask for Sales</b></font><br>
-								<font size="5"><b>[from dealer model]</b></font>
+								<font size="5"><b><%= number_to_phone(@listing.contact_number) %></b></font>
 								</td>
 								</tr>
 								</tbody>

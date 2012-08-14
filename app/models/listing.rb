@@ -14,6 +14,16 @@ class Listing
 
 
   #field :title, :type => String
+
+  def campaign_number
+    self.dealer.campaign_number
+  end
+  def numeral_id
+    self.id.to_s.to_i(16)
+  end
+  def contact_number
+    self.dealer.contact_number
+  end
   def title
     "!random{★| ♦| ▲ | ▶ | ▆| } "+self.modelyear+" "+self.make+" "+self.model+" "+self.trim+"!random{*EZ Financing Bad Credit No Credit OK* | *Amazing Clean Vehicle EZ Financing Options *|*Best Deals in Town Easy Financing Options* }"
   end
@@ -167,7 +177,7 @@ class Listing
 
   def get_html_body(id)
     listing = Listing.find(id)
-    doc = open("http://"+MyConstants::DOMAIN_NAME+cl_listing_path(listing)) { |f| Hpricot(f) }
+    doc = open(MyConstants::DOMAIN_NAME+cl_listing_path(listing)) { |f| Hpricot(f) }
     listing.body = doc.to_html
     listing.save
   end

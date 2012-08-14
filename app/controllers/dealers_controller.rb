@@ -28,7 +28,7 @@ class DealersController < ApplicationController
 
 	def create
 	  @dealer = Dealer.new(params[:dealer])
-	 
+	  
 	  respond_to do |format|
 	    if @dealer.save
 	      format.html  { redirect_to(@dealer,

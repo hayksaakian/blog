@@ -1,12 +1,12 @@
 #xml.instruct!
+@dealer.reset_counter
 xml.dataroot do
-  xml.posts do
     @dealer.listings.each do |listing|
-      xml.post do
-        xml.id listing.id
+      xml.posts do
+        xml.id listing.numeral_id
         xml.title listing.title
         xml.body listing.body
-        xml.campaign 11111
+        xml.campaign listing.campaign_number
         xml.city listing.city
         xml.cat listing.cat
         xml.age listing.age
@@ -14,5 +14,4 @@ xml.dataroot do
         xml.ema 1
       end
     end
-  end
 end
