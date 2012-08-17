@@ -170,7 +170,10 @@ class Listing
     #HACK due to being unable to describe absolute urls on localhost
     #s should point to the url of the listing we want to take a snapshot of
     #s = "http://localhost:3000" + listing_path(listing)
-    s = listing_url(listing)
+    #s = MyConstants::DOMAIN_NAME + listing_path(listing)
+    s = listing_url(listing, :host => MyConstants::DOMAIN_NAME, :only_path => false)
+    
+    logger.debug ("|!|!|!| FCUK pulling screenshot of listing located at "+s)
     #the above should point to the to-be screencapped view
     file.write(IMGKit.new(s).to_png)
     file.flush
@@ -189,6 +192,7 @@ class Listing
   protected
   def get_images
     if self.image_locations.empty?
+      logger.debug "|!|!|!| getting images"
       self.image_locations = ['YOU FUCKED UP, BRO.']
       self.image_locations = self.images.split(',')
       self.image_locations.each do |location|

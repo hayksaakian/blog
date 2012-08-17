@@ -3,9 +3,9 @@ module MyConstants
 	CONTACT_IMG_SRC = "http://teslamarketing.com/cl/banner/contact.jpg"
 	MAIN_LANDING_URL = "http://dealerbus.com/"
 	MAIN_FOOTER_IMG_SRC = "http://teslamarketing.com/cl/banner/dealerbus-footer.jpg"
-	DOMAIN_NAMES = {"staging" => "hayktest.heroku.com", 
+	DOMAIN_NAMES = {"staging" => "hayktest.herokuapp.com", 
 		"development" => "localhost:5000", 
-		"production" =>  "hayktest.heroku.com", 
+		"production" =>  "hayktest.herokuapp.com", 
 		"test" => "localhost:5000"}
-	DOMAIN_NAME = "http://"+DOMAIN_NAMES[Rails.env]
+	DOMAIN_NAME = DOMAIN_NAMES[Rails.env]
 end
