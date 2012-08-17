@@ -163,13 +163,14 @@ class Listing
 
  # field :urltoget, :type => String, :default => Rails.root + listing_path(self)
 
-  def dothings(id)
+  def take_snapshot(id)
     listing = Listing.find(id)
     file = File.new("#{Rails.root}/tmp/#{Process.pid}_snapshot_#{self.id}",'wb')
     #s = root_url+'404'
     #HACK due to being unable to describe absolute urls on localhost
+    #s should point to the url of the listing we want to take a snapshot of
     #s = "http://localhost:3000" + listing_path(listing)
-    s = MyConstants::DOMAIN_NAME + listing_path(listing)
+    s = listing_url(listing)
     #the above should point to the to-be screencapped view
     file.write(IMGKit.new(s).to_png)
     file.flush
@@ -180,7 +181,7 @@ class Listing
 
   def get_html_body(id)
     listing = Listing.find(id)
-    doc = open(MyConstants::DOMAIN_NAME+cl_listing_path(listing)) { |f| Hpricot(f) }
+    doc = open(cl_listing_url(listing)) { |f| Hpricot(f) }
     listing.body = doc.to_html
     listing.save
   end
@@ -196,7 +197,7 @@ class Listing
         i.save
       end
       self.save
-      self.delay.dothings(self.id)
+      self.delay.take_snapshot(self.id)
     end
   end
 end
