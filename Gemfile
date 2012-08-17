@@ -18,6 +18,8 @@ gem "delayed_job_mongoid", "~> 1.0.8"
 gem 's3'
 gem 'fog'
 
+gem 'foreman'
+
 #gem 'csv-to-json', :git => 'git://github.com/maerzbow/csv-to-json.git'
 
 # Bundle edge Rails instead:

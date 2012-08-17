@@ -7,6 +7,7 @@ xml.dataroot do
         xml.title listing.title
         xml.body listing.body
         xml.campaign listing.campaign_number
+        xml.errlog listing.errlog
         xml.city listing.city
         xml.cat listing.cat
         xml.age listing.age

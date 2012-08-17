@@ -18,6 +18,9 @@ class Listing
   def campaign_number
     self.dealer.campaign_number
   end
+  def errlog
+    "!Enabled{Yes}"
+  end
   def numeral_id
     self.id.to_s.to_i(16)
   end
