@@ -171,7 +171,8 @@ class Listing
     #s should point to the url of the listing we want to take a snapshot of
     #s = "http://localhost:3000" + listing_path(listing)
     #s = MyConstants::DOMAIN_NAME + listing_path(listing)
-    s = listing_url(listing, :host => MyConstants::DOMAIN_NAME, :only_path => false)
+    #s = listing_url(listing, :host => MyConstants::DOMAIN_NAME, :only_path => false)
+    s = "http://www.google.com/news"
     
     logger.debug ("|!|!|!| FCUK pulling screenshot of listing located at "+s)
     #the above should point to the to-be screencapped view
