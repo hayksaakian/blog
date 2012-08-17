@@ -184,7 +184,8 @@ class Listing
 
   def get_html_body(id)
     listing = Listing.find(id)
-    doc = open(cl_listing_url(listing)) { |f| Hpricot(f) }
+    s = cl_listing_url(listing, :host => MyConstants::DOMAIN_NAME, :only_path => false)
+    doc = open(s) { |f| Hpricot(f) }
     listing.body = doc.to_html
     listing.save
   end
