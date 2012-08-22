@@ -184,7 +184,7 @@ class Listing
 
     #Tempfile version according to github for IMGkit
     listing = Listing.find(id)
-    file = Tempfile.new(["#{Process.pid}_template_#{self.id.to_s}", 'png'], 'tmp', :encoding => 'ascii-8bit')
+    file = Tempfile.new(["#{Process.pid}_template_#{self.id.to_s}", 'png'], "#{Rails.root.to_s}/tmp/", :encoding => 'ascii-8bit')
     #s = root_url+'404'
     #HACK due to being unable to describe absolute urls on localhost
     #s should point to the url of the listing we want to take a snapshot of
