@@ -10,7 +10,7 @@ gem "carrierwave"
 gem "carrierwave-mongoid"
 
 gem 'imgkit'
-gem "hpricot"
+gem "nokogiri"
 
 gem "delayed_job", "~> 3.0.2"
 gem "delayed_job_mongoid", "~> 1.0.8"

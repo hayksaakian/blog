@@ -1,5 +1,4 @@
 # encoding: utf-8
-require 'hpricot'
 require 'open-uri'
 class Listing
   include Mongoid::Document
@@ -172,8 +171,9 @@ class Listing
     #s = "http://localhost:3000" + listing_path(listing)
     #s = MyConstants::DOMAIN_NAME + listing_path(listing)
     #s = listing_url(listing, :host => MyConstants::DOMAIN_NAME, :only_path => false)
-    s = "http://www.google.com/news"
-    
+    #s = "http://www.google.com/news"
+    s = "http://api.externalip.net/ip/"
+
     logger.debug ("|!|!|!| FCUK pulling screenshot of listing located at "+s)
     #the above should point to the to-be screencapped view
     file.write(IMGKit.new(s).to_png)
@@ -187,7 +187,7 @@ class Listing
     listing = Listing.find(id)
     s = cl_listing_url(listing, :host => MyConstants::DOMAIN_NAME, :only_path => false)
     doc = Nokogiri::HTML(open(s))
-    listing.body = doc.to_html
+    listing.body = doc.at_xpath("//body").inner_html
     listing.save
   end
 
