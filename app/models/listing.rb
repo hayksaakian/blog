@@ -184,7 +184,7 @@ class Listing
 
     #Tempfile version according to github for IMGkit
     listing = Listing.find(id)
-    file = Tempfile.new(["#{Process.pid}_template_#{self.id.to_s}", 'png'], "#{Rails.root.to_s}/tmp/", :encoding => 'ascii-8bit')
+    file = Tempfile.new(["#{Process.pid}_screenshot_tempfile.png", 'png'], "tmp", :encoding => 'ascii-8bit')
     #s = root_url+'404'
     #HACK due to being unable to describe absolute urls on localhost
     #s should point to the url of the listing we want to take a snapshot of
@@ -194,7 +194,7 @@ class Listing
     #s = "http://www.google.com/news"
     #s = "http://api.externalip.net/ip/"
 
-    logger.debug ("|!|!|!| FCUK pulling screenshot of listing located at "+s)
+    logger.debug ("|!|!|!| FCUK screenshot located at "+s)
     #the above should point to the to-be screencapped view
     file.write(IMGKit.new(s).to_png)
     file.flush
