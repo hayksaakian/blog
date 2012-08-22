@@ -4,6 +4,18 @@
 		"selected_items":
 		[
 			[
+				"make",
+				"make_counter"
+			],
+			[
+				"ca",
+				"campaign_number"
+			],
+			[
+				"conta",
+				"contact_number"
+			],
+			[
 				"listing",
 				"listing_path"
 			],
@@ -67,7 +79,7 @@
 			"file": "app/models/dealer.rb",
 			"settings":
 			{
-				"buffer_size": 1344,
+				"buffer_size": 1590,
 				"line_ending": "Unix"
 			}
 		},
@@ -75,31 +87,7 @@
 			"file": "app/views/dealers/show.xml.builder",
 			"settings":
 			{
-				"buffer_size": 365,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/views/posts/landing.html.erb",
-			"settings":
-			{
-				"buffer_size": 0,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "public/landing_sample.html",
-			"settings":
-			{
-				"buffer_size": 11272,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/controllers/dealers_controller.rb",
-			"settings":
-			{
-				"buffer_size": 1793,
+				"buffer_size": 443,
 				"line_ending": "Unix"
 			}
 		},
@@ -107,55 +95,15 @@
 			"file": "app/models/listing.rb",
 			"settings":
 			{
-				"buffer_size": 4657,
+				"buffer_size": 5137,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "app/controllers/listings_controller.rb",
+			"file": "config/initializers/my_constants.rb",
 			"settings":
 			{
-				"buffer_size": 627,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/views/listings/cl_listing.html.erb",
-			"settings":
-			{
-				"buffer_size": 1665,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/views/dealers/_form.html.erb",
-			"settings":
-			{
-				"buffer_size": 859,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/views/dealers/show.html.erb",
-			"settings":
-			{
-				"buffer_size": 1015,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/views/listings/show.html.erb",
-			"settings":
-			{
-				"buffer_size": 4904,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/views/layouts/application.html.erb",
-			"settings":
-			{
-				"buffer_size": 367,
+				"buffer_size": 503,
 				"line_ending": "Unix"
 			}
 		}
@@ -184,30 +132,39 @@
 	},
 	"file_history":
 	[
-		"/Users/macmini/rorhayk/blog/app/views/listings/show.xml.erb",
+		"/Users/macmini/rorhayk/blog/tmp/31284_snapshot_502d9e752efc1279d4000003",
+		"/Users/macmini/rorhayk/blog/Procfile",
+		"/Users/macmini/rorhayk/blog/log/development.log",
+		"/Users/macmini/rorhayk/blog/public/landing_sample.html",
+		"/Users/macmini/rorhayk/blog/app/views/listings/template_backup.html",
+		"/Users/macmini/rorhayk/blog/app/views/listings/landing.html.erb",
+		"/Users/macmini/rorhayk/blog/Gemfile",
 		"/Users/macmini/rorhayk/blog/config/initializers/my_constants.rb",
+		"/Users/macmini/rorhayk/blog/app/models/counter.rb",
+		"/Users/macmini/rorhayk/blog/app/controllers/listings_controller.rb",
+		"/Users/macmini/rorhayk/blog/app/models/listing.rb",
+		"/Users/macmini/rorhayk/blog/app/views/listings/cl_listing.html.erb",
+		"/Users/macmini/rorhayk/blog/app/views/dealers/_form.html.erb",
+		"/Users/macmini/rorhayk/blog/app/views/dealers/show.html.erb",
+		"/Users/macmini/rorhayk/blog/app/controllers/dealers_controller.rb",
 		"/Users/macmini/rorhayk/blog/app/views/listings/show.html.erb",
+		"/Users/macmini/rorhayk/blog/app/views/posts/landing.html.erb",
+		"/Users/macmini/rorhayk/blog/app/views/layouts/application.html.erb",
+		"/Users/macmini/rorhayk/blog/app/views/listings/show.xml.erb",
 		"/Users/macmini/rorhayk/blog/app/views/posts/show.html.erb",
 		"/Users/macmini/rorhayk/blog/app/views/dealers/index.html.erb",
 		"/Users/macmini/rorhayk/blog/app/views/dealers/edit.html.erb",
-		"/Users/macmini/rorhayk/blog/app/views/dealers/show.html.erb",
 		"/Users/macmini/rorhayk/blog/app/views/posts/index.html.erb",
 		"/Users/macmini/rorhayk/blog/app/models/post.rb",
-		"/Users/macmini/rorhayk/blog/app/views/listings/cl_listing.html.erb",
 		"/Users/macmini/rorhayk/blog/config/routes.rb",
-		"/Users/macmini/rorhayk/blog/app/views/layouts/application.html.erb",
-		"/Users/macmini/rorhayk/blog/Gemfile",
 		"/Users/macmini/rorhayk/blog/app/views/listings/show.xml.builder",
 		"/Users/macmini/rorhayk/blog/app/controllers/posts_controller.rb",
 		"/Users/macmini/rorhayk/blog/app/controllers/comments_controller.rb",
-		"/Users/macmini/rorhayk/blog/app/controllers/listings_controller.rb",
-		"/Users/macmini/rorhayk/blog/app/views/dealers/_form.html.erb",
 		"/Users/macmini/rorhayk/blog/app/controllers/welcome_controller.rb",
 		"/Users/macmini/rorhayk/blog/app/views/dealers/new.html.erb",
 		"/Users/macmini/rorhayk/blog/app/views/posts/new.html.erb",
 		"/Users/macmini/rorhayk/blog/app/views/listings/_form.html.erb",
 		"/Users/macmini/rorhayk/blog/public/cl_template.html",
-		"/Users/macmini/rorhayk/blog/app/models/listing.rb",
 		"/Users/macmini/rorhayk/blog/lib/screencap_job.rb",
 		"/Users/macmini/Desktop/c4s_evergreensales.csv",
 		"/Users/macmini/rorhayk/blog/config/initializers/carrierwave.rb",
@@ -219,7 +176,6 @@
 		"/Users/macmini/rorhayk/blog/app/views/comments/_comment.html.erb",
 		"/Users/macmini/rorhayk/blog/app/views/listings/ORIGINAL_listing.html.erb",
 		"/Users/macmini/rorhayk/blog/app/views/listings/_listings.html.erb",
-		"/Users/macmini/rorhayk/blog/app/views/listings/template_backup.html",
 		"/Users/macmini/rorhayk/blog/public/template_backup.html",
 		"/Users/macmini/rorhayk/blog/lib/delayed_image_processing.rb",
 		"/Users/macmini/rorhayk/blog/public/404.html",
@@ -240,6 +196,7 @@
 		"height": 0.0,
 		"where_history":
 		[
+			"/Users/macmini/rorhayk/blog/tmp"
 		]
 	},
 	"find_state":
@@ -247,6 +204,12 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"image_locations",
+			"image_locations\n\n\n\n\n",
+			"the url",
+			"FCUK",
+			"beet",
+			"counter",
 			"phone",
 			"snapsho",
 			"price",
@@ -273,7 +236,7 @@
 	"groups":
 	[
 		{
-			"selected": 11,
+			"selected": 0,
 			"sheets":
 			[
 				{
@@ -281,15 +244,15 @@
 					"file": "app/models/dealer.rb",
 					"settings":
 					{
-						"buffer_size": 1344,
+						"buffer_size": 1590,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								324,
-								324
+								900,
+								900
 							]
 						],
 						"settings":
@@ -309,21 +272,21 @@
 					"file": "app/views/dealers/show.xml.builder",
 					"settings":
 					{
-						"buffer_size": 365,
+						"buffer_size": 443,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								365,
-								365
+								176,
+								176
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/Rails/Ruby on Rails.tmLanguage",
-							"tab_size": 2,
+							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
@@ -331,270 +294,60 @@
 						"zoom_level": 1.0
 					},
 					"type": "text"
-				},
+				}
+			]
+		},
+		{
+			"selected": 0,
+			"sheets":
+			[
 				{
 					"buffer": 2,
-					"file": "app/views/posts/landing.html.erb",
+					"file": "app/models/listing.rb",
 					"settings":
 					{
-						"buffer_size": 0,
+						"buffer_size": 5137,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								4718,
+								4718
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Rails/HTML (Rails).tmLanguage"
+							"syntax": "Packages/Ruby/Ruby.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 2335.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 3,
-					"file": "public/landing_sample.html",
+					"file": "config/initializers/my_constants.rb",
 					"settings":
 					{
-						"buffer_size": 11272,
+						"buffer_size": 503,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								219,
-								219
+								378,
+								378
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/HTML/HTML.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "app/controllers/dealers_controller.rb",
-					"settings":
-					{
-						"buffer_size": 1793,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								379,
-								379
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Ruby/Ruby.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "app/models/listing.rb",
-					"settings":
-					{
-						"buffer_size": 4657,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								545,
-								545
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Ruby/Ruby.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 23.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "app/controllers/listings_controller.rb",
-					"settings":
-					{
-						"buffer_size": 627,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								224,
-								224
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Ruby/Ruby.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "app/views/listings/cl_listing.html.erb",
-					"settings":
-					{
-						"buffer_size": 1665,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								988,
-								992
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Rails/HTML (Rails).tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 8,
-					"file": "app/views/dealers/_form.html.erb",
-					"settings":
-					{
-						"buffer_size": 859,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								508,
-								508
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Rails/HTML (Rails).tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 9,
-					"file": "app/views/dealers/show.html.erb",
-					"settings":
-					{
-						"buffer_size": 1015,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								123,
-								123
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Rails/HTML (Rails).tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 10,
-					"file": "app/views/listings/show.html.erb",
-					"settings":
-					{
-						"buffer_size": 4904,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3927,
-								3927
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Rails/HTML (Rails).tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 1265.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 11,
-					"file": "app/views/layouts/application.html.erb",
-					"settings":
-					{
-						"buffer_size": 367,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								175,
-								175
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Rails/HTML (Rails).tmLanguage"
+							"syntax": "Packages/Ruby/Ruby.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -622,11 +375,18 @@
 				0,
 				1,
 				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
 			]
 		],
 		"cols":
 		[
 			0.0,
+			0.488219349458,
 			1.0
 		],
 		"rows":
@@ -636,6 +396,10 @@
 		]
 	},
 	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 25.0
+	},
 	"replace":
 	{
 		"height": 0.0
@@ -651,11 +415,11 @@
 	},
 	"select_project":
 	{
-		"height": 0.0,
+		"height": 500.0,
 		"selected_items":
 		[
 		],
-		"width": 0.0
+		"width": 380.0
 	},
 	"show_minimap": true,
 	"show_open_files": false,

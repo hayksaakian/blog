@@ -1,5 +1,6 @@
 # encoding: utf-8
 require 'hpricot'
+require 'open-uri'
 class Listing
   include Mongoid::Document
   include Mongoid::Timestamps
@@ -11,7 +12,6 @@ class Listing
   # attr_accessor :reject_list
   #require File.join(Rails.root, "lib", "screencap_job")
   #Mongoid::Document::ClassMethods.send(:include, ScreencapJob)
-
 
   #field :title, :type => String
 
@@ -186,7 +186,7 @@ class Listing
   def get_html_body(id)
     listing = Listing.find(id)
     s = cl_listing_url(listing, :host => MyConstants::DOMAIN_NAME, :only_path => false)
-    doc = open(s) { |f| Hpricot(f) }
+    doc = Nokogiri::HTML(open(s))
     listing.body = doc.to_html
     listing.save
   end
