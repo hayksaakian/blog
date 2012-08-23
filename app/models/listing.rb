@@ -215,8 +215,8 @@ class Listing
   def snapit(url)
     kit = IMGKit.new(url).to_jpg
     #file = Tempfile.new(["#{Process.pid}_template_#{self.id}", 'jpg'], 'tmp', :encoding => 'ascii-8bit')
-    file = File.new("#{Rails.root}/tmp/myfile_#{Process.pid}",'wb')
-    
+    #file = File.new("#{Rails.root}/tmp/myfile_#{Process.pid}",'wb')
+      
     #file = File.open("#{Rails.root}/tmp/#{Process.pid}_4tmpsnpsht_#{self.id}",'wb')
     #file.write(kit)
     self.file_to_carrierwave
@@ -242,6 +242,10 @@ class Listing
       end
       self.save
       s = listing_url(self, :host => MyConstants::DOMAIN_NAME, :only_path => false)
+
+      #test make a file
+      file = File.new("#{Rails.root}/tmp/myfile_#{Process.pid}",'wb')
+      
       self.delay.snapit(s)
     end
   end
