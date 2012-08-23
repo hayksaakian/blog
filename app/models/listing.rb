@@ -212,23 +212,24 @@ class Listing
     listing.save
   end
 
-  def snapit(url, file)
+  def snapit(url, filepath)
+    file = File.open(filepath, 'wb')
     kit = IMGKit.new(url).to_jpg
     #file = Tempfile.new(["#{Process.pid}_template_#{self.id}", 'jpg'], 'tmp', :encoding => 'ascii-8bit')
     #file = File.new("#{Rails.root}/tmp/myfile_#{Process.pid}",'wb')
       
     #file = File.open("#{Rails.root}/tmp/#{Process.pid}_4tmpsnpsht_#{self.id}",'wb')
     file.write(kit)
-    self.file_to_carrierwave
+    self.file_to_carrierwave(file)
   end
 
-  def file_to_carrierwave
-    file.flush
+  def file_to_carrierwave(file)
+    #file.flush
     self.snapshot = file
     #self.remote_snapshot_url = "https://www.google.com/images/srpr/logo3w.png"
     self.save
     #only commented temporarily for Tempfile
-    #file.unlink
+    file.unlink
   end
 
   def get_images
@@ -242,12 +243,14 @@ class Listing
         i.save
       end
       self.save
-      s = listing_url(self, :host => MyConstants::DOMAIN_NAME, :only_path => false)
 
+      s = listing_url(self, :host => MyConstants::DOMAIN_NAME, :only_path => false)
+      logger.debug ("|!|!|!| FCUK of page located at "+s)
       #test make a file
       file = File.new("#{Rails.root}/tmp/myfile_#{Process.pid}",'wb')
-      
-      self.delay.snapit(s, file)
+      #file = Tempfile.new(["#{Process.pid}_template_#{self.id}", 'jpg'], 'tmp', :encoding => 'ascii-8bit')
+
+      self.delay.snapit(s, file.path)
     end
   end
 end
