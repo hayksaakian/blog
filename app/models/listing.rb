@@ -164,7 +164,7 @@ class Listing
 
   def take_snapshot(id)
     listing = Listing.find(id)
-    file = File.new("#{Rails.root}/tmp/snptmp_#{self.id}",'wb')
+    file = File.new("#{Rails.root}/tmp/snptmp",'wb')
     #s = root_url+'404'
     #HACK due to being unable to describe absolute urls on localhost
     #s should point to the url of the listing we want to take a snapshot of
@@ -212,6 +212,16 @@ class Listing
     listing.save
   end
 
+  def snapit
+    file = File.new("#{Rails.root}/tmp/#{Process.pid}_tmpsnpsht_#{self.id}",'wb')
+    #file = Tempfile.new(["#{Rails.root}/tmp/#{Process.pid}_files/", 'png'], 'tmp', :encoding => 'ascii-8bit')
+    s = listing_url(self, :host => MyConstants::DOMAIN_NAME, :only_path => false)
+    file.write(IMGKit.new(s).to_png)
+    file.flush
+    self.snapshot = file
+    self.save
+  end
+
   protected
   def get_images
     if self.image_locations.empty?
@@ -224,8 +234,7 @@ class Listing
         i.save
       end
       self.save
-      self.delay.take_snapshot(self.id)
-      #self.take_snapshot(self.id)
+      self.delay.snapit
     end
   end
 end
