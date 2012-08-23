@@ -219,8 +219,9 @@ class Listing
     #file = File.new("#{Rails.root}/tmp/myfile_#{Process.pid}",'wb')
       
     #file = File.open("#{Rails.root}/tmp/#{Process.pid}_4tmpsnpsht_#{self.id}",'wb')
-    file.write(kit)
-    self.file_to_carrierwave(file)
+    #file.write(kit)
+    #self.file_to_carrierwave(file)
+    self.dummy_file_to_carrierwave
   end
 
   def file_to_carrierwave(file)
@@ -230,6 +231,11 @@ class Listing
     self.save
     #only commented temporarily for Tempfile
     file.unlink
+  end
+
+  def dummy_file_to_carrierwave
+    self.remote_snapshot_url = "https://www.google.com/images/srpr/logo3w.png"
+    self.save
   end
 
   def get_images
@@ -247,7 +253,7 @@ class Listing
       s = listing_url(self, :host => MyConstants::DOMAIN_NAME, :only_path => false)
       logger.debug ("|!|!|!| FCUK of page located at "+s)
       #test make a file
-      file = File.new("#{Rails.root}/tmp/myfile_#{Process.pid}",'wb')
+      file = File.open("#{Rails.root}/tmp/myfile_#{Process.pid}",'wb')
       #file = Tempfile.new(["#{Process.pid}_template_#{self.id}", 'jpg'], 'tmp', :encoding => 'ascii-8bit')
 
       self.delay.snapit(s, file.path)
