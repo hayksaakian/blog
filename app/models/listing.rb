@@ -214,7 +214,7 @@ class Listing
 
   def snapit(url)
     kit = IMGKit.new(url).to_png
-    file = File.new("#{Rails.root}/tmp/#{Process.pid}_4tmpsnpsht_#{self.id}",'wb')
+    file = File.open("#{Rails.root}/tmp/#{Process.pid}_4tmpsnpsht_#{self.id}",'wb')
     file.write(kit)
     self.file_to_carrierwave(file)
   end
