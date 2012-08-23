@@ -212,17 +212,18 @@ class Listing
     listing.save
   end
 
-  def snapit
+  def snapit(url)
     file = File.new("#{Rails.root}/tmp/#{Process.pid}_tmpsnpsht_#{self.id}",'wb')
-    #file = Tempfile.new(["#{Rails.root}/tmp/#{Process.pid}_files/", 'png'], 'tmp', :encoding => 'ascii-8bit')
-    s = listing_url(self, :host => MyConstants::DOMAIN_NAME, :only_path => false)
-    file.write(IMGKit.new(s).to_png)
+    file.write(IMGKit.new(url).to_png)
+    file_to_carrierwave(file)
+  end
+
+  def file_to_carrierwave(file)
     file.flush
     self.snapshot = file
     self.save
   end
 
-  protected
   def get_images
     if self.image_locations.empty?
       logger.debug "|!|!|!| getting images"
@@ -234,7 +235,8 @@ class Listing
         i.save
       end
       self.save
-      self.delay.snapit
+      s = listing_url(self, :host => MyConstants::DOMAIN_NAME, :only_path => false)
+      self.delay.snapit(s)
     end
   end
 end
