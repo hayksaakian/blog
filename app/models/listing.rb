@@ -163,28 +163,8 @@ class Listing
  # field :urltoget, :type => String, :default => Rails.root + listing_path(self)
 
   def take_snapshot(id)
-    # listing = Listing.find(id)
-    # file = File.new("#{Rails.root}/tmp/#{Process.pid}_snapshot_#{self.id}",'wb')
-    # #s = root_url+'404'
-    # #HACK due to being unable to describe absolute urls on localhost
-    # #s should point to the url of the listing we want to take a snapshot of
-    # #s = "http://localhost:3000" + listing_path(listing)
-    # #s = MyConstants::DOMAIN_NAME + listing_path(listing)
-    # s = listing_url(listing, :host => MyConstants::DOMAIN_NAME, :only_path => false)
-    # #s = "http://www.google.com/news"
-    # #s = "http://api.externalip.net/ip/"
-
-    # logger.debug ("|!|!|!| FCUK pulling screenshot of listing located at "+s)
-    # #the above should point to the to-be screencapped view
-    # file.write(IMGKit.new(s).to_png)
-    # file.flush
-    # listing.snapshot = file
-    # listing.save
-    # listing.delay.get_html_body(id)
-
-    #Tempfile version according to github for IMGkit
     listing = Listing.find(id)
-    file = Tempfile.new(["#{Process.pid}_screenshot_tempfile.png", 'png'], "tmp", :encoding => 'ascii-8bit')
+    file = File.new("#{Rails.root}/tmp/#{Process.pid}_snptmp_#{self.id}",'wb')
     #s = root_url+'404'
     #HACK due to being unable to describe absolute urls on localhost
     #s should point to the url of the listing we want to take a snapshot of
@@ -194,14 +174,34 @@ class Listing
     #s = "http://www.google.com/news"
     #s = "http://api.externalip.net/ip/"
 
-    logger.debug ("|!|!|!| FCUK screenshot located at "+s)
+    logger.debug ("|!|!|!| FCUK pulling screenshot of listing located at "+s)
     #the above should point to the to-be screencapped view
     file.write(IMGKit.new(s).to_png)
     file.flush
     listing.snapshot = file
     listing.save
-    file.unlink
     listing.delay.get_html_body(id)
+
+    # #Tempfile version according to github for IMGkit
+    # listing = Listing.find(id)
+    # file = Tempfile.new(["#{Process.pid}_screenshot_tempfile.png", 'png'], "tmp", :encoding => 'ascii-8bit')
+    # #s = root_url+'404'
+    # #HACK due to being unable to describe absolute urls on localhost
+    # #s should point to the url of the listing we want to take a snapshot of
+    # #s = "http://localhost:3000" + listing_path(listing)
+    # #s = MyConstants::DOMAIN_NAME + listing_path(listing)
+    # #s = listing_url(listing, :host => MyConstants::DOMAIN_NAME, :only_path => false)
+    # #s = "http://www.google.com/news"
+    # s = "http://api.externalip.net/ip/"
+
+    # logger.debug ("|!|!|!| FCUK screenshot located at "+s)
+    # #the above should point to the to-be screencapped view
+    # file.write(IMGKit.new(s).to_png)
+    # file.flush
+    # listing.snapshot = file
+    # listing.save
+    # file.unlink
+    # listing.delay.get_html_body(id)
   end
 
   def get_html_body(id)
@@ -225,6 +225,7 @@ class Listing
       end
       self.save
       self.delay.take_snapshot(self.id)
+      #self.take_snapshot(self.id)
     end
   end
 end
