@@ -238,6 +238,11 @@ class Listing
     self.save
   end
 
+  def arbitrary_method(s, filepath)
+    file = File.open(filepath, 'w+')
+    self.delay.snapit(s, filepath)
+  end
+
   def get_images
     if self.image_locations.empty?
       logger.debug "|!|!|!| getting images"
@@ -256,7 +261,7 @@ class Listing
       file = File.open("#{Rails.root}/tmp/#{self.id}_myfile_#{Process.pid}",'w+')
       #file = Tempfile.new(["#{Process.pid}_template_#{self.id}", 'jpg'], 'tmp', :encoding => 'ascii-8bit')
 
-      self.delay.snapit(s, file.path)
+      self.arbitrary_method(s, file.path)
     end
   end
 end
