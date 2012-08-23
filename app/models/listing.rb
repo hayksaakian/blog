@@ -214,13 +214,13 @@ class Listing
 
   def snapit(url)
     kit = IMGKit.new(url).to_jpg
-    file = Tempfile.new(["template_#{self.id}", 'jpg'], 'tmp', :encoding => 'ascii-8bit')
+    file = Tempfile.new(["#{Process.pid}_template_#{self.id}", 'jpg'], 'tmp', :encoding => 'ascii-8bit')
     #file = File.open("#{Rails.root}/tmp/#{Process.pid}_4tmpsnpsht_#{self.id}",'wb')
     file.write(kit)
-    self.file_to_carrierwave(file)
+    self.file_to_carrierwave
   end
 
-  def file_to_carrierwave(file)
+  def file_to_carrierwave
     #file.flush
     self.remote_snapshot_url = "https://www.google.com/images/srpr/logo3w.png"
     self.save
