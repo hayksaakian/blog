@@ -213,7 +213,7 @@ class Listing
   end
 
   def snapit(url, filepath)
-    file = File.open(filepath, 'w+')
+    #file = File.open(filepath, 'w+')
     kit = IMGKit.new(url).to_jpg
     #file = Tempfile.new(["#{Process.pid}_template_#{self.id}", 'jpg'], 'tmp', :encoding => 'ascii-8bit')
     #file = File.new("#{Rails.root}/tmp/myfile_#{Process.pid}",'wb')
