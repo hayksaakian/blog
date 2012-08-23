@@ -213,7 +213,7 @@ class Listing
   end
 
   def snapit(url, filepath)
-    file = File.open(filepath, 'wb')
+    file = File.open(filepath, 'w+')
     kit = IMGKit.new(url).to_jpg
     #file = Tempfile.new(["#{Process.pid}_template_#{self.id}", 'jpg'], 'tmp', :encoding => 'ascii-8bit')
     #file = File.new("#{Rails.root}/tmp/myfile_#{Process.pid}",'wb')
@@ -253,7 +253,7 @@ class Listing
       s = listing_url(self, :host => MyConstants::DOMAIN_NAME, :only_path => false)
       logger.debug ("|!|!|!| FCUK of page located at "+s)
       #test make a file
-      file = File.open("#{Rails.root}/tmp/myfile_#{Process.pid}",'wb')
+      file = File.open("#{Rails.root}/tmp/#{self.id}_myfile_#{Process.pid}",'w+')
       #file = Tempfile.new(["#{Process.pid}_template_#{self.id}", 'jpg'], 'tmp', :encoding => 'ascii-8bit')
 
       self.delay.snapit(s, file.path)
