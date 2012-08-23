@@ -164,7 +164,7 @@ class Listing
 
   def take_snapshot(id)
     listing = Listing.find(id)
-    file = File.new("#{Rails.root}/tmp/#{Process.pid}_snptmp_#{self.id}",'wb')
+    file = File.new("#{Rails.root}/tmp/snptmp_#{self.id}",'wb')
     #s = root_url+'404'
     #HACK due to being unable to describe absolute urls on localhost
     #s should point to the url of the listing we want to take a snapshot of
