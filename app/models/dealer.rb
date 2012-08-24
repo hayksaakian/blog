@@ -31,7 +31,7 @@ class Dealer
 
   def convert
     if(self.json_data.nil?)
-      logger.info("the url: "+self.raw_text.path)
+      logger.info("the url: #{self.raw_text.path}")
 
       csv_table = CSV.table(self.raw_text.path)
       list = []
