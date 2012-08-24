@@ -246,6 +246,10 @@ class Listing
     File.open("#{Rails.root}/tmp/#{self.id}_derpfile_#{Process.pid}",'wb')
   end
 
+  def create_a_tempfile
+    Tempfile.new(["#{Process.pid}_derpFILE_#{self.id}", 'jpg'], 'tmp', :encoding => 'ascii-8bit')
+  end
+
   def get_images
     if self.image_locations.empty?
       self.image_locations = ['YOU FUCKED UP, BRO.']
@@ -264,6 +268,7 @@ class Listing
       #file = Tempfile.new(["#{Process.pid}_template_#{self.id}", 'jpg'], 'tmp', :encoding => 'ascii-8bit')
 
       self.delay.create_a_temp_file
+      self.delay.create_a_tempfile
       self.delay.dummy_file_to_carrierwave
       #self.arbitrary_method(s, file.path)
     end
