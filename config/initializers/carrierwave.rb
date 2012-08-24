@@ -7,7 +7,7 @@ CarrierWave.configure do |config|
    config.storage = :grid_fs
    # config.grid_fs_access_url = Setting.upload_url
  elsif Rails.env.production?
-   config.root = Rails.root.join('tmp') # adding these...
+   config.root = '/tmp' # adding these...
    config.cache_dir = 'carrierwave' # ...two lines    
    config.s3_access_key_id = ENV['AWS_ACCESS_KEY_ID']
    config.s3_secret_access_key = ENV['AWS_SECRET_ACCESS_KEY']
