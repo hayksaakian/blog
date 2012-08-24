@@ -243,16 +243,16 @@ class Listing
   end
 
   def create_a_temp_file
-    File.open("#{Rails.root}/tmp/#{self.id}_derpfile_#{Process.pid}",'wb')
+    file = File.open("#{Rails.root}/tmp/#{self.id}_derpfile_#{Process.pid}",'wb')
   end
 
   def create_a_tempfile
     file = Tempfile.new(["#{Process.pid}_derpFILE_#{self.id}", 'jpg'], 'tmp', :encoding => 'ascii-8bit')
-    file.write(IMGKit.new("<h1>text for things go here</h1>", quality: 50, width: 600).to_jpg)
-    file.flush
+    #file.write(IMGKit.new("<h1>text for things go here</h1>", quality: 50, width: 600).to_jpg)
+    #file.flush
     #self.snapshot = file
     #self.save
-    file.unlink
+    #file.unlink
   end
 
   def get_images
