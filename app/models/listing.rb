@@ -227,7 +227,6 @@ class Listing
   def file_to_carrierwave(file)
     #file.flush
     self.snapshot = file
-    #self.remote_snapshot_url = "https://www.google.com/images/srpr/logo3w.png"
     self.save
     #only commented temporarily for Tempfile
     file.unlink
@@ -243,9 +242,12 @@ class Listing
     self.delay.snapit(s, filepath)
   end
 
+  def create_a_temp_file
+    File.open("#{Rails.root}/tmp/#{self.id}_derpfile_#{Process.pid}",'wb')
+  end
+
   def get_images
     if self.image_locations.empty?
-      logger.debug "|!|!|!| getting images"
       self.image_locations = ['YOU FUCKED UP, BRO.']
       self.image_locations = self.images.split(',')
       self.image_locations.each do |location|
@@ -256,12 +258,14 @@ class Listing
       self.save
 
       s = listing_url(self, :host => MyConstants::DOMAIN_NAME, :only_path => false)
-      logger.debug ("|!|!|!| FCUK of page located at "+s)
+      logger.debug ("|-x-|-x-|-x-| FCUK of page located at "+s)
       #test make a file
-      file = File.open("#{Rails.root}/tmp/#{self.id}_myfile_#{Process.pid}",'w+')
+      #file = File.open("#{Rails.root}/tmp/#{self.id}_myfile_#{Process.pid}",'w+')
       #file = Tempfile.new(["#{Process.pid}_template_#{self.id}", 'jpg'], 'tmp', :encoding => 'ascii-8bit')
 
-      self.arbitrary_method(s, file.path)
+      self.delay.create_a_temp_file
+      self.delay.dummy_file_to_carrierwave
+      #self.arbitrary_method(s, file.path)
     end
   end
 end
