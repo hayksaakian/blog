@@ -275,7 +275,7 @@ class Listing
       #just creating a temp file will tend to fail
       self.delay.create_a_temp_file
       #creating a tempfile seems to not fail, but the method fails later
-      self.delay.create_a_tempfile
+      self.create_a_tempfile
       #self.delay.dummy_file_to_carrierwave
       #self.arbitrary_method(s, file.path)
     end
