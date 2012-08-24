@@ -8,12 +8,6 @@ class Listing
   belongs_to :dealer
   has_many :pictures
 
-  # attr_accessor :reject_list
-  #require File.join(Rails.root, "lib", "screencap_job")
-  #Mongoid::Document::ClassMethods.send(:include, ScreencapJob)
-
-  #field :title, :type => String
-
   def campaign_number
     self.dealer.campaign_number
   end
@@ -85,35 +79,10 @@ class Listing
 
   field :body, :type => String, :default => "<h1>html is not ready yet</h1>"
 
-  # field :reject_list, type: Array, default: [
-  #   "reject_list",
-  #   "title", 
-  #   "location", 
-  #   "body", 
-  #   "images", 
-  #   "pictures", 
-  #   "image_locations", 
-  #   "snapshot"]
-
   def footer_text
-    ki = self.attributes
-    #MOVE THIS TO A CLASS VARIABLE ONCE YOU FIGURE OUT HOW
-    rlist = [
-    "updated_at",
-    "created_at",
-    "optiontext",
-    "dealer_id",
-    "_id",
-    "reject_list",
-    "title", 
-    "location", 
-    "body", 
-    "images", 
-    "pictures", 
-    "image_locations", 
-    "snapshot"]
-    kj = ki.reject { |k, v| rlist.include?(k.to_s) }
+    kj = footer_text_hash
     kj.map{|k,v| "#{v}"}.join(', ')
+    kj
   end
 
   def footer_text_hash
@@ -160,99 +129,21 @@ class Listing
 
   after_save :get_images
 
- # field :urltoget, :type => String, :default => Rails.root + listing_path(self)
-
-  def take_snapshot(id)
-    listing = Listing.find(id)
-    file = File.new("#{Rails.root}/tmp/snptmp",'wb')
-    #s = root_url+'404'
-    #HACK due to being unable to describe absolute urls on localhost
-    #s should point to the url of the listing we want to take a snapshot of
-    #s = "http://localhost:3000" + listing_path(listing)
-    #s = MyConstants::DOMAIN_NAME + listing_path(listing)
-    s = listing_url(listing, :host => MyConstants::DOMAIN_NAME, :only_path => false)
-    #s = "http://www.google.com/news"
-    #s = "http://api.externalip.net/ip/"
-
-    logger.debug ("|!|!|!| FCUK pulling screenshot of listing located at "+s)
-    #the above should point to the to-be screencapped view
-    file.write(IMGKit.new(s).to_png)
-    file.flush
-    listing.snapshot = file
-    listing.save
-    listing.delay.get_html_body(id)
-
-    # #Tempfile version according to github for IMGkit
-    # listing = Listing.find(id)
-    # file = Tempfile.new(["#{Process.pid}_screenshot_tempfile.png", 'png'], "tmp", :encoding => 'ascii-8bit')
-    # #s = root_url+'404'
-    # #HACK due to being unable to describe absolute urls on localhost
-    # #s should point to the url of the listing we want to take a snapshot of
-    # #s = "http://localhost:3000" + listing_path(listing)
-    # #s = MyConstants::DOMAIN_NAME + listing_path(listing)
-    # #s = listing_url(listing, :host => MyConstants::DOMAIN_NAME, :only_path => false)
-    # #s = "http://www.google.com/news"
-    # s = "http://api.externalip.net/ip/"
-
-    # logger.debug ("|!|!|!| FCUK screenshot located at "+s)
-    # #the above should point to the to-be screencapped view
-    # file.write(IMGKit.new(s).to_png)
-    # file.flush
-    # listing.snapshot = file
-    # listing.save
-    # file.unlink
-    # listing.delay.get_html_body(id)
-  end
-
-  def get_html_body(id)
-    listing = Listing.find(id)
-    s = cl_listing_url(listing, :host => MyConstants::DOMAIN_NAME, :only_path => false)
+  def get_html_body
+    s = cl_listing_url(self, :host => MyConstants::DOMAIN_NAME, :only_path => false)
     doc = Nokogiri::HTML(open(s))
-    listing.body = doc.at_xpath("//body").inner_html
-    listing.save
-  end
-
-  def snapit(url, filepath)
-    #file = File.open(filepath, 'w+')
-    kit = IMGKit.new(url).to_jpg
-    #file = Tempfile.new(["#{Process.pid}_template_#{self.id}", 'jpg'], 'tmp', :encoding => 'ascii-8bit')
-    #file = File.new("#{Rails.root}/tmp/myfile_#{Process.pid}",'wb')
-      
-    #file = File.open("#{Rails.root}/tmp/#{Process.pid}_4tmpsnpsht_#{self.id}",'wb')
-    #file.write(kit)
-    #self.file_to_carrierwave(file)
-    self.dummy_file_to_carrierwave
-  end
-
-  def file_to_carrierwave(file)
-    #file.flush
-    self.snapshot = file
-    self.save
-    #only commented temporarily for Tempfile
-    file.unlink
-  end
-
-  def dummy_file_to_carrierwave
-    self.remote_snapshot_url = "https://www.google.com/images/srpr/logo3w.png"
+    self.body = doc.at_xpath("//body").inner_html
     self.save
   end
 
-  def arbitrary_method(s, filepath)
-    file = File.open(filepath, 'w+')
-    self.delay.snapit(s, filepath)
-  end
-
-  def create_a_temp_file
-    file = File.open("#{Rails.root}/tmp/#{self.id}_derpfile_#{Process.pid}",'wb')
-  end
-
-  def create_a_tempfile(url)
-    file = Tempfile.new(["#{Process.pid}_derpFILE_#{self.id}", 'jpg'], '/tmp', :encoding => 'ascii-8bit')
-    file.write(IMGKit.new(url, quality: 50, width: 600).to_jpg)
+  def make_snapshot(url)
+    file = Tempfile.new(["#{Process.pid}_snapshot_#{self.id}", 'png'], '/tmp', :encoding => 'ascii-8bit')
+    file.write(IMGKit.new(url).to_png)
     file.flush
     self.snapshot = file
     self.save
     file.unlink
+    self.get_html_body
   end
 
   def get_images
@@ -267,20 +158,7 @@ class Listing
       self.save
 
       s = listing_url(self, :host => MyConstants::DOMAIN_NAME, :only_path => false)
-      logger.debug ("|-x-|-x-|-x-| FCUK of page located at "+s)
-      #test make a file
-      #file = File.open("#{Rails.root}/tmp/#{self.id}_myfile_#{Process.pid}",'w+')
-      #file = Tempfile.new(["#{Process.pid}_template_#{self.id}", 'jpg'], 'tmp', :encoding => 'ascii-8bit')
-
-      s = listing_url(self, :host => MyConstants::DOMAIN_NAME, :only_path => false)
-    
-
-      #just creating a temp file will tend to fail
-      self.delay.create_a_temp_file
-      #creating a tempfile seems to not fail, but the method fails later
-      self.delay.create_a_tempfile(s)
-      #self.delay.dummy_file_to_carrierwave
-      #self.arbitrary_method(s, file.path)
+      self.delay.make_snapshot(s)
     end
   end
 end
