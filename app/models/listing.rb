@@ -246,9 +246,9 @@ class Listing
     file = File.open("#{Rails.root}/tmp/#{self.id}_derpfile_#{Process.pid}",'wb')
   end
 
-  def create_a_tempfile
+  def create_a_tempfile(url)
     file = Tempfile.new(["#{Process.pid}_derpFILE_#{self.id}", 'jpg'], 'tmp', :encoding => 'ascii-8bit')
-    file.write(IMGKit.new("<h1>text for things go here</h1>", quality: 50, width: 600).to_jpg)
+    file.write(IMGKit.new(url, quality: 50, width: 600).to_jpg)
     file.flush
     self.snapshot = file
     self.save
@@ -272,10 +272,13 @@ class Listing
       #file = File.open("#{Rails.root}/tmp/#{self.id}_myfile_#{Process.pid}",'w+')
       #file = Tempfile.new(["#{Process.pid}_template_#{self.id}", 'jpg'], 'tmp', :encoding => 'ascii-8bit')
 
+      s = listing_url(listing, :host => MyConstants::DOMAIN_NAME, :only_path => false)
+    
+
       #just creating a temp file will tend to fail
       self.delay.create_a_temp_file
       #creating a tempfile seems to not fail, but the method fails later
-      self.create_a_tempfile
+      self.create_a_tempfile(s)
       #self.delay.dummy_file_to_carrierwave
       #self.arbitrary_method(s, file.path)
     end
