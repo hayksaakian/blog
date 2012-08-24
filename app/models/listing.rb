@@ -272,7 +272,7 @@ class Listing
       #file = File.open("#{Rails.root}/tmp/#{self.id}_myfile_#{Process.pid}",'w+')
       #file = Tempfile.new(["#{Process.pid}_template_#{self.id}", 'jpg'], 'tmp', :encoding => 'ascii-8bit')
 
-      s = listing_url(listing, :host => MyConstants::DOMAIN_NAME, :only_path => false)
+      s = listing_url(self, :host => MyConstants::DOMAIN_NAME, :only_path => false)
     
 
       #just creating a temp file will tend to fail
