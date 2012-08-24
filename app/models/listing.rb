@@ -252,7 +252,7 @@ class Listing
     file.flush
     #self.snapshot = file
     #self.save
-    file.unlink
+    #file.unlink
   end
 
   def get_images
