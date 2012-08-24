@@ -247,7 +247,7 @@ class Listing
   end
 
   def create_a_tempfile(url)
-    file = Tempfile.new(["#{Process.pid}_derpFILE_#{self.id}", 'jpg'], 'tmp', :encoding => 'ascii-8bit')
+    file = Tempfile.new(["#{Process.pid}_derpFILE_#{self.id}", 'jpg'], '/tmp', :encoding => 'ascii-8bit')
     file.write(IMGKit.new(url, quality: 50, width: 600).to_jpg)
     file.flush
     self.snapshot = file
