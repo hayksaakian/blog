@@ -1,4 +1,7 @@
-<p><%= link_to "Add a new Dealer.", new_dealer_path %></p>
+<p>
+	<%= link_to "Add a new Dealer.", new_dealer_path %>
+	<%= link_to "Update Dealers from the FTP server", update_from_ftp_path %>
+</p>
 <% @dealers.each do |dealer| %>
 	<hr/>
 	<h2><%= link_to dealer.name, dealer %></h2>

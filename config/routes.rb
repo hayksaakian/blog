@@ -14,6 +14,7 @@ Blog::Application.routes.draw do
 
   match 'cl_listing/:id' => 'listings#show_cl', :as => :cl_listing
   match 'listing/:id' => 'listings#show', :as => :listing
+  match 'update_from_ftp' => 'dealers#update_from_ftp'
   
   # Keep in mind you can assign values other than :controller and :action
 

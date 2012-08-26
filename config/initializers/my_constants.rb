@@ -1,4 +1,7 @@
 module MyConstants
+	FTP_SERVER = "www.teslamarketing.com"
+	FTP_USERNAME = "chobohob"
+	FTP_PASS = "t3mpP@ss"
 	CREDIT_IMG_SRC = "http://teslamarketing.com/cl/banner/template/credit.gif"
 	CONTACT_IMG_SRC = "http://teslamarketing.com/cl/banner/contact.jpg"
 	MAIN_LANDING_URL = "http://dealerbus.com/"

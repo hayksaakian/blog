@@ -7,6 +7,7 @@ class DealersController < ApplicationController
 	    format.json  { render :json => @dealers }
 	  end
 	end
+
 	def show
 	  @dealer = Dealer.find(params[:id])
 	 
@@ -45,6 +46,15 @@ class DealersController < ApplicationController
 
 	def edit
 	  @dealer = Dealer.find(params[:id])
+	end
+
+	def update_from_ftp
+		str = Dealer.poll_ftp
+	  respond_to do |format|
+	    format.html { flash[:notice] = 'Starting update from FTP server '+str 
+	    							redirect_to dealers_path}
+	    format.json { head :no_content }
+	  end
 	end
 
 	def update

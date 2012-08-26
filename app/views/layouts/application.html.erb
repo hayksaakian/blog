@@ -6,7 +6,7 @@
   <%= javascript_include_tag "application" %>
   <%= favicon_link_tag %>
   <%= csrf_meta_tags %>
-  <h1>Snazzy Test Site</h1>
+  <h1><%= link_to_unless_current('Snazzy Test Site',       {:action => 'index'}) %></h1>
 </head>
 <body>
 <% flash.each do |key, value|%>

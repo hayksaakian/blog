@@ -33,7 +33,8 @@ class Listing
     self.price
   end
   def locat
-    self.location
+    retval = self.dealer_name + " "+ self.location
+    retval
   end
   def rand_hexes(quantity=10)
     s = ""
@@ -125,15 +126,17 @@ class Listing
   field :description, :type => String
   field :images, :type => String
 
-  field :image_locations, :type => Array, :default => []
+#  field :image_locations, :type => Array, :default => []
 
-  after_save :get_images
+  field :url_to_screencap, :type => String
+  field :needs_changes, :type => Boolean, :default => true
+
+  before_save :get_images
 
   def get_html_body
     s = cl_listing_url(self, :host => MyConstants::DOMAIN_NAME, :only_path => false)
     doc = Nokogiri::HTML(open(s))
     self.body = doc.at_xpath("//body").inner_html
-    self.save
   end
 
   def make_snapshot(url)
@@ -141,23 +144,21 @@ class Listing
     file.write(IMGKit.new(url).to_png)
     file.flush
     self.snapshot = file
-    self.save
     file.unlink
     self.get_html_body
   end
 
-  def get_images
-    if self.image_locations.empty?
-      self.image_locations = ['YOU FUCKED UP, BRO.']
-      self.image_locations = self.images.split(',')
-      self.image_locations.each do |location|
-        i = self.pictures.new
-        i.get_image(location)
-        i.save
-      end
-      self.save
+  def image_locations
+    self.images.split(',')
+  end
 
-      s = listing_url(self, :host => MyConstants::DOMAIN_NAME, :only_path => false)
+  def get_images
+    if self.needs_changes == true
+      self.update_attribute(:needs_changes => false)
+      self.image_locations.each do |location|
+        self.pictures.find_or_create_by(original_url: location)
+      end
+      self.update_attribute (:url_to_screencap, listing_url(self, :host => MyConstants::DOMAIN_NAME, :only_path => false))
       self.delay.make_snapshot(s)
     end
   end
