@@ -1,6 +1,6 @@
 class DealersController < ApplicationController
 	def index
-	  @dealers = Dealer.all
+	  @dealers = current_user.dealers
 	 
 	  respond_to do |format|
 	    format.html  # index.html.erb
@@ -29,19 +29,21 @@ class DealersController < ApplicationController
 
 	def create
 	  @dealer = Dealer.new(params[:dealer])
-	  
-	  respond_to do |format|
-	    if @dealer.save
+		@dealer.user_ids << current_user.id
+		if @dealer.save
+		  respond_to do |format|
 	      format.html  { redirect_to(@dealer,
 	                    :notice => 'Dealer was successfully added.') }
 	      format.json  { render :json => @dealer,
 	                    :status => :created, :location => @dealer }
-	    else
+		  end
+    else
+		  respond_to do |format|
 	      format.html  { render :action => "new" }
 	      format.json  { render :json => @dealer.errors,
 	                    :status => :unprocessable_entity }
-	    end
-	  end
+		  end
+    end
 	end
 
 	def edit

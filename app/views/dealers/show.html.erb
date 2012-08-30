@@ -1,7 +1,6 @@
-<h1><%= @dealer.name %></h1>
+<h2><%= @dealer.name %></h2>
 	<small><%= @dealer.id %></small>
-	<p><%= @dealer.location %></p>
-	<p><%= @dealer.contact_number %></p>
+	<p><%= @dealer.location %> · <%= number_to_phone(@dealer.contact_number) %></p>
 
 	<p>
 		Banner Image:

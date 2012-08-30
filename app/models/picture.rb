@@ -6,7 +6,7 @@ class Picture
   field :picture
   field :original_url, :type => String
 
-  after_save :get_picture_from_original_url
+  before_save :get_picture_from_original_url
 
   def get_picture_from_original_url
   	self.remote_picture_url = self.original_url

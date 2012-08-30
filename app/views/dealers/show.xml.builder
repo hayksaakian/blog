@@ -5,7 +5,7 @@ xml.dataroot do
       xml.posts do
         xml.id listing.numeral_id
         xml.title listing.title
-        xml.body listing.body
+        xml.body listing.html_body.body
         xml.campaign listing.campaign_number
         xml.errlog listing.errlog
         xml.city listing.city

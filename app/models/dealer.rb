@@ -7,26 +7,60 @@ require 'open-uri'
 class Dealer
   include Mongoid::Document
   include Mongoid::Timestamps
+  has_and_belongs_to_many :users
   has_many :listings, :dependent => :destroy
   has_one :counter, :dependent => :destroy
 
-  attr_accessible :name, :location, :banner_url, :contact_url, :raw_text, :contact_number
+  attr_accessible :name, :zip_code, :location, :full_location, :banner_url, :contact_url, :raw_text, :contact_number
 
-  field :name, :type => String
-  field :location, :type => String
-  field :full_location, :type => String
-  field :contact_number, :type => String, :default => "2065551234"
+  field :name, :type => String, :default => MyConstants::DEFAULT_DEALER_NAME
+  field :zip_code, :type => String, :default => MyConstants::DEFAULT_ZIP
+  field :location, :type => String, :default => MyConstants::DEFAULT_LOCATION
+  field :full_location, :type => String, :default => MyConstants::DEFAULT_FULL_LOCATION
+  field :contact_number, :type => String
   field :raw_text
-  field :contact_url, :type => String, :default => "http://dealerbus.com/contactlegend"
-  field :banner_url, :type => String, :default => "http://teslamarketing.com/cl/banner/legend-ad-head.gif"
+  field :contact_url, :type => String, :default => MyConstants::DEFAULT_DEALER_CONTACT_URL
+  field :banner_url, :type => String, :default => MyConstants::DEFAULT_DEALER_BANNER_URL
 
   mount_uploader :raw_text, RawTextUploader
 
   field :json_data, :type => Hash
 
   #CALLBACKS
-  before_save :convert
-  after_save :make_listings, :make_counter
+  before_save :flesh_out_defaults, :convert
+  after_save :domake_listings
+  after_create :make_counter
+  after_update :reset_counter
+
+  def flesh_out_defaults
+    s_filename = self.raw_text.filename.split("-")
+    f_dealer_zip = MyConstants::DEFAULT_ZIP
+    #from file
+    if(self.name == MyConstants::DEFAULT_DEALER_NAME)
+      self.name = s_filename[0].split(/(?=[A-Z])/).join(" ")
+    end
+    #from file
+    if(self.zip_code == MyConstants::DEFAULT_ZIP)
+      f_dealer_zip = s_filename[1].chomp(File.extname(s_filename[1]) )
+      self.zip_code = f_dealer_zip
+    end
+    #from file, location, and zip
+    if(self.location == MyConstants::DEFAULT_LOCATION or self.full_location == MyConstants::DEFAULT_FULL_LOCATION)
+      f_dealer_zip = s_filename[1].chomp(File.extname(s_filename[1]) )
+      addrcomp = self.zip_to_locality(self.zip_code)
+      if(self.location == MyConstants::DEFAULT_LOCATION)
+        self.location = addrcomp["address_components"][1]["short_name"].to_s
+      end
+      #from location and zip
+      if(self.full_location == MyConstants::DEFAULT_FULL_LOCATION)
+        self.full_location = addrcomp["formatted_address"].to_s
+      end
+    end
+    #fancify placeholder
+    if self.banner_url == MyConstants::DEFAULT_DEALER_BANNER_URL
+      self.banner_url = self.banner_url + "&text=" +URI.escape(self.name)
+    end
+  end
 
   def reset_counter
     self.counter.reset
@@ -67,27 +101,24 @@ class Dealer
   def self.make_dealer_from_file(filename, file, options)
     arr = filename.split("-")
     dealer_name = arr[0].split(/(?=[A-Z])/).join(" ")
-    zip = arr[1]
-    addrcomp = Dealer.zip_to_locality(zip)
+    zip = arr[1].chomp(File.extname(arr[1]) )
 
-    a_dealer = Dealer.find_or_initialize_by(name: dealer_name, location: addrcomp["address_components"][1]["short_name"])
-    a_dealer.full_location = addrcomp.to_s
+    a_dealer = Dealer.find_or_initialize_by(name: dealer_name, zip_code: zip)
     tfile = Tempfile.new(["#{Process.pid}_raw_text_viaftp_#{a_dealer.id}", 'csv'], '/tmp', :encoding => 'ascii-8bit')
     tfile.write(file)
     a_dealer.raw_text = tfile
-    a_dealer.location = addrcomp["address_components"][1]["short_name"]
     a_dealer.save
   end
 
-  def self.zip_to_locality(zip)
-    url = 'http://maps.googleapis.com/maps/api/geocode/json?address='+zip.to_s+'&sensor=true'
-    url = URI.parse(url)
+  def zip_to_locality(zip)
+    url = MyConstants.MAKE_GEOCODING_URL(zip)
     response = Net::HTTP.get(url)
     json_resp = JSON.parse(response)
     if json_resp["status"] == "OK"
-      result = json_resp["results"][0]
+      json_resp["results"][0]
+      #result = json_resp["results"][0]
       #result["address_components"][1]["short_name"]
-      result
+      #result
     else
       json_resp["status"]
     end
@@ -117,13 +148,21 @@ class Dealer
   end
 
   def make_listings
-    self.json_data.each do |j|
-      ls = self.listings.find_or_initialize_by(vin: j["vin"])
-      ls.update_attributes(j)
+    self.json_data.each do |json_source|
+      self.delay.make_one_listing(json_source)
     end
   end
 
-  validates :name, :location, :presence => true
-  validates :name, :length => {:minimum => 3} 
-  validates :name, :uniqueness => {:message => "dealer name taken"}
+  def make_one_listing(json_source)
+    ls = self.listings.find_or_initialize_by(vin: json_source["vin"])
+    ls.update_attributes(json_source)
+  end
+
+  def domake_listings
+    self.delay.make_listings
+  end
+
+  validates :contact_number, :presence => true
+  validates :contact_number, :length => {:minimum => 7} 
+  validates :contact_number, :uniqueness => {:message => "phone number name taken"}
 end

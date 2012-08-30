@@ -4,9 +4,17 @@ class Listing
   include Mongoid::Document
   include Mongoid::Timestamps
   include Rails.application.routes.url_helpers
-  mount_uploader :snapshot, SnapshotUploader
   belongs_to :dealer
-  has_many :pictures
+  has_many :pictures, :dependent => :destroy
+  has_one :html_body, :dependent => :destroy
+  has_one :snapshot, :dependent => :destroy
+
+#TODO
+#Dealer should be able to:
+#Listing Statues:
+#Active
+#Archived
+#Sold
 
   def campaign_number
     self.dealer.campaign_number
@@ -78,12 +86,10 @@ class Listing
     self.dealer.location
   end
 
-  field :body, :type => String, :default => "<h1>html is not ready yet</h1>"
-
   def footer_text
     kj = footer_text_hash
-    kj.map{|k,v| "#{v}"}.join(', ')
-    kj
+    rs = kj.values.join(', ')
+    rs
   end
 
   def footer_text_hash
@@ -91,6 +97,8 @@ class Listing
     #MOVE THIS TO A CLASS VARIABLE ONCE YOU FIGURE OUT HOW
     rlist = [
     "description",
+    "url_to_screencap",
+    "allow_changes",
     "created_at",
     "optiontext",
     "dealer_id",
@@ -128,38 +136,39 @@ class Listing
 
 #  field :image_locations, :type => Array, :default => []
 
-  field :url_to_screencap, :type => String
-  field :needs_changes, :type => Boolean, :default => true
-
-  before_save :get_images
-
-  def get_html_body
-    s = cl_listing_url(self, :host => MyConstants::DOMAIN_NAME, :only_path => false)
-    doc = Nokogiri::HTML(open(s))
-    self.body = doc.at_xpath("//body").inner_html
-  end
-
-  def make_snapshot(url)
-    file = Tempfile.new(["#{Process.pid}_snapshot_#{self.id}", 'png'], '/tmp', :encoding => 'ascii-8bit')
-    file.write(IMGKit.new(url).to_png)
-    file.flush
-    self.snapshot = file
-    file.unlink
-    self.get_html_body
-  end
+  after_create :create_dependants
+  after_update :update_dependants
+#update price, miles
 
   def image_locations
     self.images.split(',')
   end
 
-  def get_images
-    if self.needs_changes == true
-      self.update_attribute(:needs_changes => false)
-      self.image_locations.each do |location|
-        self.pictures.find_or_create_by(original_url: location)
-      end
-      self.update_attribute (:url_to_screencap, listing_url(self, :host => MyConstants::DOMAIN_NAME, :only_path => false))
-      self.delay.make_snapshot(s)
+  def create_dependants
+    self.image_locations.each do |location|
+      p = self.pictures.create(original_url: location)
+      #is save here necessary?
+      p.save
     end
+    s = cl_listing_url(self, :host => MyConstants::DOMAIN_NAME, :only_path => false)
+    self.create_html_body(url_to_scrape: s) 
+    s = listing_url(self, :host => MyConstants::DOMAIN_NAME, :only_path => false)
+    self.create_snapshot(url_to_shoot: s)  
+    self.snapshot.delay.make_snapshot
+  end
+
+  def update_dependants
+    self.image_locations.each do |location|
+      p = self.pictures.find_or_create_by(original_url: location)
+      p.save
+    end
+#    old_pics = self.pictures.not_in(original_url: self.image_locations)
+#    old_pics.destroy_all
+    #self.update_attribute(:url_to_screencap, listing_url(self, :host => MyConstants::DOMAIN_NAME, :only_path => false))
+    s = cl_listing_url(self, :host => MyConstants::DOMAIN_NAME, :only_path => false)
+    self.html_body.update_attribute(:url_to_scrape, s)
+    s = listing_url(self, :host => MyConstants::DOMAIN_NAME, :only_path => false)
+    self.snapshot.update_attribute(:url_to_shoot, s)
+    self.snapshot.delay.make_snapshot
   end
 end
