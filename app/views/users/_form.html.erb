@@ -1,0 +1,72 @@
+<div class="tab-pane active form-horizontal" id="<%= @user.id %>">
+  <%= form_for(@user) do |f| %>
+    <% if @user.errors.any? %>
+      <div class="error_messages">
+        <h3>Errors:</h3>
+        <ul>
+          <% @user.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <h3>User Contact Settings</h3>
+    <p>Enter your account settings & contact information</p>
+    <hr>
+
+    <fieldset>
+      <div class="control-group">
+            <label class="control-label" for="prependedInput">Phone Number</label>
+            <div class="controls">
+              <%= f.text_field :email, :class => "span3", :placeholder => "ex: name@gmail.com" %>
+            </div>
+      </div>
+    </fieldset>
+    <fieldset>
+      <div class="control-group">
+            <label class="control-label" for="prependedInput">User's Full Name</label>
+            <div class="controls">
+              <%= f.text_field :contact_name, :class => "span3", :placeholder => "John Smith" %>
+            </div>
+      </div>
+    </fieldset>
+    <fieldset>
+      <div class="control-group">
+            <label class="control-label" for="prependedInput">Contact Phone #</label>
+            <div class="controls">
+              <%= f.text_field :contact_number, :class => "span3", :placeholder => "2065552468" %>
+            </div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <div class="control-group">
+            <label class="control-label" for="prependedInput">Password</label>
+            <div class="controls">
+              <%= f.password_field :password, :class => "span3", :placeholder => "ex: http://www.website.com/contact_us" %>
+            </div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <div class="control-group">
+            <label class="control-label" for="prependedInput">Password Confirmation</label>
+            <div class="controls">
+              <%= f.password_field :password_confirmation %>
+            </div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <div class="control-group">
+            <label class="control-label" for="prependedInput"></label>
+            <div class="controls">
+              <%= f.submit "Commit User Info", :class => "btn btn-warning" do %>
+                <i class="icon-refresh icon-white"></i>
+              <% end %>
+            </div>
+      </div>
+    </fieldset>
+  <% end %>
+</div>

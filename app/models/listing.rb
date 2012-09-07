@@ -115,6 +115,22 @@ class Listing
     kj
   end
 
+  def concise_text_hash
+    glist = [
+      "modelyear",
+      "make",
+      "model",
+      "mileage",
+      "price"
+    ]
+    kj = self.footer_text_hash
+    kh = Hash.new
+    glist.each do |k|
+      kh[k] = kj[k]
+    end
+    kh
+  end
+
   field :vin, :type => String
   field :stocknumber, :type => String
   field :make, :type => String
@@ -127,21 +143,32 @@ class Listing
   field :cylinders, :type => String
   field :fueltype, :type => String
   field :transmission, :type => String
+  #does not usually exist in c4s csv files
+  field :drivetype, :type => String
   field :price, :type => String
   field :exteriorcolor, :type => String
   field :interiorcolor, :type => String
   field :optiontext, :type => String
   field :description, :type => String
   field :images, :type => String
+  field :status, :type => String, :default => "Active"
 
 #  field :image_locations, :type => Array, :default => []
 
-  after_create :create_dependants
+  after_create :create_dependants, :add_makes_and_models
   after_update :update_dependants
 #update price, miles
 
   def image_locations
-    self.images.split(',')
+    if not self.images.nil?
+      self.images.split(',')
+    else
+      []
+    end
+  end
+
+  def add_makes_and_models
+    #do that here
   end
 
   def create_dependants

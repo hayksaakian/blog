@@ -1,0 +1,15 @@
+<h2>Edit User and Dealer(s) Settings</h2>
+<div class="tabbable tabs-top" style="margin-bottom: 18px;">
+<ul class="nav nav-tabs">
+  <li class="active" id="user_settings"><a href="#<%= @user.id %>" data-toggle="tab">User Settings</a></li>
+  <% @user.dealers.each do |dealer| %>
+  	<li id="account_settings" class=""><a href="#<%= dealer.id %>" data-toggle="tab"><%= dealer.name %></a></li>
+  <% end %>
+</ul>
+  <div class="tab-content">
+		<%= render 'form' %>
+		<% @user.dealers.each do |dealer| %>
+			<%= render 'dealers/form', :@dealer => dealer %>
+		<% end %>	
+  </div>
+</div>

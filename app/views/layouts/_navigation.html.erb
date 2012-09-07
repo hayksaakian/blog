@@ -1,0 +1,63 @@
+<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+  <span class="icon-bar"></span>
+  <span class="icon-bar"></span>
+  <span class="icon-bar"></span>
+</a>
+  <ul class="nav">
+  <li>
+    <%= link_to("DealerBus", root_path, :class => 'brand logo') %>
+  </li>
+  <% if current_user %>
+    <li><a href="#">Logged in as <%= current_user.email %>.</a></li>
+    <!-- <li><%= link_to "My Dealerships", dealers_path %></li> -->
+  <% else %>
+    <!-- (remove that) -->
+    <li><%= link_to "Sign up", sign_up_path %></li>
+  <% end %>
+  </ul>
+  <div class="btn-group pull-right" style="padding-right:0;">
+    <% if current_user %> 
+      <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">  
+        <i class="icon-globe"></i> Inventory Management
+        <span class="caret"></span>
+      </a>
+      <ul class="dropdown-menu">
+        <!-- Is Signed In -->
+        <li style="padding-top:7px;">
+          <%= link_to(dealers_path) do %>
+            <i class="icon-home"></i> Home
+          <% end %>
+        </li>
+        <li class="disabled"><i class="icon-chevron-right"></i> Inventory:</li>
+        <% if current_user.dealers.any? %>
+          <ul class="nav-list">
+            <% current_user.dealers.each do |dealer| %>
+              <li>
+                <%= link_to(dealer) do %>
+                  <!-- <i class="icon-chevron-right"></i> -->
+                  <%= dealer.name %>
+                <% end %>
+              </li>
+            <% end %>
+          </ul>
+        <% end %>
+        <li>
+          <%= link_to(edit_user_path(current_user)) do %>
+            <i class="icon-cog"></i> Account
+          <% end %>
+        </li>
+        <li class="divider"></li>
+        <li>
+          <%= link_to(dealers_path) do %>
+            <i class="icon-off"></i> Sign Out
+          <% end %>
+        </li>
+      </ul>
+    <% else %>
+      <!-- Not Signed In -->
+      <%= link_to(log_in_path, :class => "btn") do %>
+        <i class="icon-off"></i> Sign In
+      <% end %>
+    <% end %>
+  </div>
+</div>

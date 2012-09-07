@@ -1,0 +1,262 @@
+<!--       
+      //following fields are inconsistent in edmunds' data
+      //$("#listing_transmission").val(rj["transmissionType"]);
+      //$("#listing_fueltype").val(rj["engineFuelType"]);
+      //$("#listing_cylinders").val("v"+rj["engineCylinder"]);
+      //$("#listing_enginedescription").val(rj["engineSize"]+"L"); 
+    -->
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $("#listing_modelyear").keyup(function(){
+      $("#label_modelyear").text($(this).val());
+    });
+    $("#listing_make").keyup(function(){
+      $("#label_make").text($(this).val());
+    });
+    $("#listing_model").keyup(function(){
+      $("#label_model").text($(this).val());
+    });
+    $("#decoder_button").click(function(){
+      var vin = $("#listing_vin").val();
+      $("#label_modelyear").text("decoding from VIN");
+      $("#listing_modelyear").val("decoding from VIN");
+      $("#listing_make").val("decoding from VIN");
+      $("#listing_model").val("decoding from VIN");
+      $.ajax({
+           url:"http://api.edmunds.com/v1/api/toolsrepository/vindecoder?vin="+vin+"&api_key=e8ayagbnj6ah2zutcj63j89v&fmt=json",
+           dataType: 'jsonp', // Notice! JSONP <-- P (lowercase)
+           success:parse_results,
+           error:function(){
+               alert("Error");
+           },
+      });
+    });
+    function parse_results(results){
+      var rj = results["styleHolder"][0]
+      $("#listing_modelyear").val(rj["year"]);
+      $("#label_modelyear").text(rj["year"]);
+
+      $("#listing_make").val(rj["makeName"]);
+      $("#label_make").text(rj["makeName"]);
+
+      $("#listing_model").val(rj["modelName"]);
+      $("#label_model").text(rj["modelName"]);
+    }
+
+  });
+</script>
+
+<%= form_for([@dealer, @listing]) do |f| %><div class="group-actions pull-right">
+  <% unless @listing.updated_at.nil? %>
+    <%#= link_to(dealer_listing_path(@dealer, @listing), :confirm => 'Are you sure?', :method => :delete) do %>
+      <button type="button" class="btn btn-danger"><i class="icon-remove-circle icon-white"></i> Remove</button>
+    <%# end %>
+    <%= link_to(@listing,
+      :method => :mark_sold, 
+      :confirm => "Are you sure?", 
+      :remote=>true) do
+    %>
+      <button type="button" class="btn btn-success"><i class="icon-ok-sign icon-white"></i> Mark Sold</button>
+    <% end %>
+  <% end %>
+  <%= f.submit "Update", :class => "btn btn-warning" do %>
+    <i class="icon-refresh icon-white"></i>
+  <% end %>
+</div> <!-- .group-actions -->
+
+  
+  <div class="clear"></div>
+    <% if not @listing.pictures.count == 0 %>
+      <%= image_tag(@listing.pictures.first.picture_url.to_s, :size => "150x100", :class => "img-polaroid pull-left") %>
+    <% else %>
+      <%= image_tag("http://placehold.it/150x100", :size => "150x100", :class => "img-polaroid pull-left") %>
+    <% end %>
+  <div class="pull-left inventory_title">
+    <h2>
+      <span id="label_modelyear"><%= @listing.modelyear %></span> 
+      <span id="label_make"><%= @listing.make %></span> 
+      <span id="label_model"><%= @listing.model %></span>
+    </h2>
+    <br>
+    <h4>Vin #:</h4> 
+    <div class="input-append">
+      <%= f.text_field(:vin, :placeholder => "", :class => "span2") %> 
+      <%#= link_to(decide_vin_path, :method => :decode_vin, :remote => true) do %>
+        <button class="btn btn-info" type="button" id="decoder_button" ><i class="icon-download"></i> Decode!</button>
+      <%# end %>
+    </div>
+  </div>
+
+  <div class="pull-right inventory_details span4 form-horizontal">
+
+    <fieldset>
+      <div class="control-group">
+            <label class="control-label" for="prependedInput">Price:</label>
+            <div class="controls">
+              <%= f.text_field(:price, :class => "span2", :placeholder => "$xx,xxx") %>
+            </div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <div class="control-group">
+            <label class="control-label" for="prependedInput">Mileage:</label>
+            <div class="controls">
+              <%= f.text_field(:mileage, :class => "span2", :placeholder => "xxxx") %>
+            </div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <div class="control-group">
+            <label class="control-label" for="prependedInput">Stock #:</label>
+            <div class="controls">
+              <%= f.text_field(:stocknumber, :class => "span2", :placeholder => "1234") %>
+            </div>
+      </div>
+    </fieldset>
+
+  </div> <!-- .inventory_details -->
+  <div class="clear"></div>
+  <hr>
+
+
+  <div class="form-horizontal span5">
+
+    <fieldset>
+      <div class="control-group">
+            <label class="control-label" for="prependedInput">Year</label>
+            <div class="controls">
+              <%= f.text_field(:modelyear, :class => "span3") %>
+            </div>
+      </div>
+    </fieldset>
+<!-- TODO: Add embedded ruby here -->
+    <fieldset>
+      <div class="control-group">
+            <label class="control-label" for="prependedInput">Make</label>
+            <div class="controls">
+              <%= f.text_field(:make, :class => "span3") %>
+            </div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <div class="control-group">
+            <label class="control-label" for="prependedInput">Model</label>
+            <div class="controls">
+              <%= f.text_field(:model, :class => "span3") %>
+            </div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <div class="control-group">
+            <label class="control-label" for="prependedInput">Trim</label>
+            <div class="controls">
+              <%= f.text_field(:trim, :class => "span3") %>
+            </div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <div class="control-group">
+            <label class="control-label" for="prependedInput">Body Style</label>
+            <div class="controls">
+              <%= f.text_field(:bodystyle, :class => "span3") %>
+            </div>
+      </div>
+    </fieldset>
+
+  </div> <!-- .form-horizontal .span5 -->
+
+
+  <div class="form-horizontal span5">
+
+    <fieldset>
+      <div class="control-group">
+            <label class="control-label" for="prependedInput">Engine Type</label>
+            <div class="controls">
+              <%= f.text_field(:enginedescription, :class => "span3") %>
+            </div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <div class="control-group">
+            <label class="control-label" for="prependedInput">Engine Cylinders</label>
+            <div class="controls">
+              <%= f.text_field(:cylinders, :class => "span3") %>
+            </div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <div class="control-group">
+            <label class="control-label" for="prependedInput">Fuel Type</label>
+            <div class="controls">
+              <%= f.text_field(:fueltype, :class => "span3") %>
+            </div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <div class="control-group">
+            <label class="control-label" for="prependedInput">Drive Type</label>
+            <div class="controls">
+              <%= f.text_field(:drivetype, :class => "span3") %>
+            </div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <div class="control-group">
+            <label class="control-label" for="prependedInput">Transmission</label>
+            <div class="controls">
+              <%= f.text_field(:transmission, :class => "span3") %>
+            </div>
+      </div>
+    </fieldset>
+
+  </div> <!-- .form-horizontal .span5 -->
+  <div class="clear"></div>
+
+  <div class="vehicle_description_wrap">
+    <h4>Vehicle Description</h4>
+    <hr>
+
+    <%= f.text_area(:description, :rows => 10, :class => 'input-xlarge vehicle_description') %>
+
+  </div> <!-- .vehicle_description_wrap -->
+
+  <div class="vehicle_image_wrap">
+    <h4>Image Upload</h4>
+
+    <div class="well">
+
+      <br>  <br>  <br>
+    <br>  <br>  <br>
+      <br>  <br>  <br>
+
+    </div>
+  </div> <!-- .vehicle_image_wrap -->
+
+  <div class="group-actions pull-right">
+  <% unless @listing.updated_at.nil? %>
+    <%= link_to(dealer_listing_path(@listing.dealer, @listing), :confirm => 'Are you sure?', :method => :delete) do %>
+      <button type="button" class="btn btn-danger"><i class="icon-remove-circle icon-white"></i> Remove</button>
+    <% end %>
+
+    <%= link_to(mark_sold_path(@dealer, @listing)) do
+    %>
+      <button type="button" class="btn btn-success"><i class="icon-ok-sign icon-white"></i> Mark Sold</button>
+    <% end %>
+  <% end %>
+  <%= f.submit "Update", :class => "btn btn-warning" do %>
+    <i class="icon-refresh icon-white"></i>
+  <% end %>
+  </div> <!-- .group-actions -->
+<% end %> <!-- end of form_for -->
+
+<div class="clear"></div>

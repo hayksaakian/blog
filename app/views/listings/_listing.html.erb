@@ -1,19 +1,39 @@
-<p>
-<%= listing.test_location %>
-
-<!-- 
-  <b>Images:</b>
-  <%= listing.image_locations %><br/>
-  <% listing.pictures.each do |p| %>
-  	<%= image_tag(picture_url.to_s) %>
+<tr id=<%= listing.id %> >
+  <td> 
+		<% if listing.pictures.any? %>
+	  	<%= link_to(image_tag(listing.pictures.first.picture_url.to_s, :size => "75x50", :class => "img-polaroid"), listing_path(listing)) %>
+	  <% else %>
+	  	<%= link_to(image_tag("http://placehold.it/75x50.png", :size => "75x50", :class => "img-polaroid"), listing_path(listing)) %>
+	  <% end %>
+  </td>
+	<% listing.concise_text_hash.each do |k, val| %>
+  <td>
+  	<% if k.include?("price") %>
+  		<%= number_to_currency(val) %>
+  		<% elsif k.include?("mileage") %>
+  		<%= number_with_delimiter(val) %>
+  		<% else %>
+  		<%= val %>
+  	<% end %>
+  </td>
   <% end %>
-<p><%= @post.json_data.to_s.length %></p>
-
-<p>
-	<%= render @post.listings %>
-</p>
-
-<small><%= root_url + @post.raw_text.to_s %></small>
- -->
-  <hr>
-</p>
+<td>
+	<%= link_to(edit_dealer_listing_path(listing.dealer, listing)) do %>
+			<button type="button" class="btn btn-small btn-info">Edit</button>
+		<% end %>
+	</td>
+<td>
+  <%= link_to(mark_sold_path(listing.dealer, listing), :remote => true) do
+    %>
+			<button type="button" class="btn btn-small btn-success">Sold</button>
+	<% end %>
+</td>
+<td>
+	<%= link_to(dealer_listing_path(listing.dealer, listing), :confirm => 'Are you sure?', :method => :delete, :remote => true) do %>
+			<button type="button" class="btn btn-small btn-danger">Delete</button>
+	<% end %>
+</td>
+<td>
+	<%= check_box_tag 'listing_ids[]', listing.id, false %>
+</td>
+</tr>

@@ -7,12 +7,15 @@ Blog::Application.routes.draw do
   resources :users
   resources :sessions
 
-  resources :posts do
-    resources :comments
-  end
   resources :dealers do
     resources :listings
   end
+
+  match 'dealers/:dealer_id/listings/:id/mark_sold' => 'listings#mark_sold', :as => 'mark_sold'
+  #make routs for 
+  #delete_multiple
+  #sold_multiple
+  #update_individual
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

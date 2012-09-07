@@ -15,7 +15,7 @@ class User
 
   attr_accessor :password
   before_save :encrypt_password
-  
+
   validates :password, :confirmation => true
   validates :password, :presence => true, :on => :create
   validates :email, :presence => true

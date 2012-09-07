@@ -1,0 +1,31 @@
+<h2 class="pull-left">Inventory</h2>
+
+<%= link_to(new_dealer_listing_path(@dealer)) do %>
+	<button type="button" class="btn btn-large pull-right"><i class="icon-plus-sign"></i> Add Inventory</button>
+<% end %>
+
+<div class="clear"></div>
+<hr>
+<% if(@listings.count > 0) %>
+<table class="table table-striped table-hover">
+  <thead>
+	  <tr>
+	    <th></th>
+			<% @listings.first.concise_text_hash.keys.each do |key| %>
+	    	<th><%= key.camelize %></th>
+	    <% end %>
+	    <th></th>
+	    <th></th>
+	    <th></th>
+	    <th>Select</th>
+	  </tr>
+	</thead>
+	<tbody id="listings">
+		<%= render @listings %>
+	</tbody>
+</table>
+<% end %>
+<button type="submit" class="btn btn-warning pull-right btn_right"><i class="icon-refresh icon-white"></i> Update All</button>
+<button type="submit" class="btn btn-success pull-right btn_right"><i class="icon-ok-sign icon-white"></i> Sold Selected</button>
+<button type="submit" class="btn btn-danger pull-right btn_right"><i class="icon-remove-circle icon-white"></i> Delete Selected</button>
+<div class="clear"></div>

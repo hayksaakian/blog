@@ -13,10 +13,10 @@ class Dealer
 
   attr_accessible :name, :zip_code, :location, :full_location, :banner_url, :contact_url, :raw_text, :contact_number
 
-  field :name, :type => String, :default => MyConstants::DEFAULT_DEALER_NAME
-  field :zip_code, :type => String, :default => MyConstants::DEFAULT_ZIP
-  field :location, :type => String, :default => MyConstants::DEFAULT_LOCATION
-  field :full_location, :type => String, :default => MyConstants::DEFAULT_FULL_LOCATION
+  field :name, :type => String
+  field :zip_code, :type => String
+  field :location, :type => String
+  field :full_location, :type => String
   field :contact_number, :type => String
   field :raw_text
   field :contact_url, :type => String, :default => MyConstants::DEFAULT_DEALER_CONTACT_URL
@@ -33,32 +33,34 @@ class Dealer
   after_update :reset_counter
 
   def flesh_out_defaults
-    s_filename = self.raw_text.filename.split("-")
-    f_dealer_zip = MyConstants::DEFAULT_ZIP
-    #from file
-    if(self.name == MyConstants::DEFAULT_DEALER_NAME)
-      self.name = s_filename[0].split(/(?=[A-Z])/).join(" ")
-    end
-    #from file
-    if(self.zip_code == MyConstants::DEFAULT_ZIP)
-      f_dealer_zip = s_filename[1].chomp(File.extname(s_filename[1]) )
-      self.zip_code = f_dealer_zip
-    end
-    #from file, location, and zip
-    if(self.location == MyConstants::DEFAULT_LOCATION or self.full_location == MyConstants::DEFAULT_FULL_LOCATION)
-      f_dealer_zip = s_filename[1].chomp(File.extname(s_filename[1]) )
-      addrcomp = self.zip_to_locality(self.zip_code)
-      if(self.location == MyConstants::DEFAULT_LOCATION)
-        self.location = addrcomp["address_components"][1]["short_name"].to_s
+    if(not self.raw_text.filename == nil)
+      s_filename = self.raw_text.filename.split("-")
+      f_dealer_zip = MyConstants::DEFAULT_ZIP
+      #from file
+      if(self.name == "")
+        self.name = s_filename[0].split(/(?=[A-Z])/).join(" ")
       end
-      #from location and zip
-      if(self.full_location == MyConstants::DEFAULT_FULL_LOCATION)
-        self.full_location = addrcomp["formatted_address"].to_s
+      #from file
+      if(self.zip_code == "")
+        f_dealer_zip = s_filename[1].chomp(File.extname(s_filename[1]) )
+        self.zip_code = f_dealer_zip
       end
-    end
-    #fancify placeholder
-    if self.banner_url == MyConstants::DEFAULT_DEALER_BANNER_URL
-      self.banner_url = self.banner_url + "&text=" +URI.escape(self.name)
+      #from file, location, and zip
+      if(self.location == "" or self.full_location == "")
+        f_dealer_zip = s_filename[1].chomp(File.extname(s_filename[1]) )
+        addrcomp = self.zip_to_locality(self.zip_code)
+        if(self.location == "")
+          self.location = addrcomp["address_components"][1]["short_name"].to_s
+        end
+        #from location and zip
+        if(self.full_location == "")
+          self.full_location = addrcomp["formatted_address"].to_s
+        end
+      end
+      #fancify placeholder
+      if self.banner_url == ""
+        self.banner_url = self.banner_url + "&text=" +URI.escape(self.name)
+      end
     end
   end
 
@@ -116,9 +118,6 @@ class Dealer
     json_resp = JSON.parse(response)
     if json_resp["status"] == "OK"
       json_resp["results"][0]
-      #result = json_resp["results"][0]
-      #result["address_components"][1]["short_name"]
-      #result
     else
       json_resp["status"]
     end
@@ -137,7 +136,7 @@ class Dealer
   end
 
   def convert
-    if(self.json_data.nil?)
+    if(self.json_data.nil? and not self.raw_text == nil)
       csv_table = CSV.table(self.raw_text.path)
       self.json_data = self.csvfile_tojson(csv_table)
     end
